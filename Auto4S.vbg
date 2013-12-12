@@ -1,0 +1,5 @@
+VBGROUP 5.0
+Project=4SCommon\Auto4S_Common.vbp
+StartupProject=4SClient\Auto4S_Client.vbp
+Project=4SServer\Auto4S_Server.vbp
+Project=4SEncode\Auto4S_License.vbp

@@ -1,0 +1,26 @@
+set nocount on
+create table #All (fbillno varchar(255), FTemplateID int, FNextLevelTagIndex int, FBillerID int)
+ 
+declare @BillNO varchar(255), @OrderID int, @BillerID int
+declare aaa_Cursor CURSOR FOR
+select fBillNO, finterid, FBillerID from poorder where isnull(fcheckerid,0) = 0
+open aaa_cursor
+fetch next from aaa_Cursor into @BillNO, @OrderID, @BillerID
+while @@fetch_status=0
+begin
+insert into #All 
+select top 1 @BillNO, FTemplateID, FNextLevelTagIndex, @BillerID from icClassMCStatus200000054 where fbillid = @OrderID order by fid desc
+fetch next from aaa_Cursor into @BillNO, @OrderID, @BillerID
+end
+close aaa_Cursor
+deallocate aaa_Cursor
+select FBillNO 单据编号, FName_Chs 下级审核, c.fname as 制单人 
+from #All a left join ICClassMCTableInfo b on a.FTemplateID = b.FTemplateID 
+and a.FNextLevelTagIndex = b.FTagIndex
+left join t_user c on a.fbillerid = c.fuserid
+ 
+ 
+ 
+drop table #all
+
+
