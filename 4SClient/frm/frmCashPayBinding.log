@@ -1,0 +1,11 @@
+行 43: 控件 gridBill 的类 MSHierarchicalFlexGridLib.MSHFlexGrid 不是一个已加载的控件类。
+行 49: 属性名 _ExtentX 在 gridBill 中是无效的。
+行 50: 属性名 _ExtentY 在 gridBill 中是无效的。
+行 51: 属性名 _Version 在 gridBill 中是无效的。
+行 52: 属性名 WordWrap 在 gridBill 中是无效的。
+行 53: 属性名 SelectionMode 在 gridBill 中是无效的。
+行 54: 属性名 _NumberOfBands 在 gridBill 中是无效的。
+行 55: 属性名 _Band(0).Cols 在 gridBill 中是无效的。
+行 56: 属性名 _Band(0).GridLinesBand 在 gridBill 中是无效的。
+行 57: 属性名 _Band(0).TextStyleBand 在 gridBill 中是无效的。
+行 58: 属性名 _Band(0).TextStyleHeader 在 gridBill 中是无效的。
