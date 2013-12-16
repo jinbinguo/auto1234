@@ -38,8 +38,6 @@ Private Sub m_BillInterface_AfterFirstNewBill()
  m_BillInterface.SetBillFormCaption "汽车4S注册信息"
 End Sub
 
-
-
 Private Sub m_BillInterface_AfterLoadBill()
      m_BillInterface.SetBillFormCaption "汽车4S注册信息"
 End Sub

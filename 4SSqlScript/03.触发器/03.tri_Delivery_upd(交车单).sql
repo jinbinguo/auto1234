@@ -33,18 +33,11 @@ begin
 		if (@newStatus = '16' and @oldStatus <> '16') 
 		begin 
 			set @isAudit = 1; 
-			--更新交车单审核日期
-			update t_ats_Delivery
-			set FAuditTime = GETDATE()
-			where FID = @interId;
 		end;
 		if (@newStatus <> '16' and @oldStatus = '16')
 		begin
 			set @isUnAdit = 1;
 			--更新交车单审核日期
-			update t_ats_Delivery
-			set FAuditTime = null
-			where FID = @interId;
 		end;
 		
 		--来源自[整车销售订单]的[交车单]审核与反审核操作后反写[整车销售订单]、[车辆]

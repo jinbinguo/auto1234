@@ -115,5 +115,3 @@ begin
 	deallocate cur;
 
 end
-
-

@@ -40,7 +40,7 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     Dim bindingId As Long
     Dim bindingEntryId As Long
     Dim amountFor As Double
-    amountFor = m_BillInterface.GetFieldValue("FAmountFor")
+    amountFor = Val(m_BillInterface.GetFieldValue("FAmountFor"))
     bindingId = Val(m_BillInterface.GetFieldValue("FInteger1")) '关联单ID
     bindingEntryId = Val(m_BillInterface.GetFieldValue("FInteger2"))  '关联单分录ID
     bindingBillTypeNum = m_BillInterface.GetFieldValue("FComboBox") '关联单类型

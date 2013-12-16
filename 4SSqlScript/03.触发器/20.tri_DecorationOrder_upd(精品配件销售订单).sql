@@ -61,7 +61,7 @@ begin
 			select @saleOrderId=FID_SRC,@saleOrderEntryId=FEntryID_SRC from T_ATS_DecorationOrderSource where fid=@interId and FClassID_SRC=200000028
 			if @saleOrderId > 0 
 			begin
-			--更新整车销售订单的精品就收金额，精品加装金额累计
+			--更新整车销售订单的精品应收金额，精品加装金额累计
 				update b
 				set FARGitwareAmount=(
 					select isnull(sum(amount),0) from (
