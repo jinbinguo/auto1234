@@ -1,4 +1,3 @@
------------解决部署安装后，BOS单据ID可能变更问题，产生新单
 begin try
 begin tran
 --现金付款单
@@ -236,6 +235,118 @@ insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FTyp
 --汽车4S注册信息
 delete ICClassPackObject where FSrcClassTypeId=200000067
 insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000067,'3851155A-0051-B540-8D20-BECBA7D108D0',0,4)
+
+--维修工单
+delete ICClassPackObject where FSrcClassTypeId=200000068
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000068,'7C559D2C-486D-5E42-B5C5-C4560B5F9F7F',0,4)
+
+--车间管理
+delete ICClassPackObject where FSrcClassTypeId=200000069
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000069,'34D37232-9510-DA44-905E-E48E9E254362',0,4)
+
+--附加项目
+delete ICClassPackObject where FSrcClassTypeId=200000070
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000070,'6E5A98D7-FEA6-8C49-A1F1-99B8CED179A6',0,1)
+
+--维修派工单
+delete ICClassPackObject where FSrcClassTypeId=200000071
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000071,'6B735AD6-D9C5-E949-A817-A9A703261782',0,4)
+
+--工位
+delete ICClassPackObject where FSrcClassTypeId=200000072
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000072,'1AEEF70B-C2FD-3D4E-89DA-78003B161E14',0,1)
+
+--中断类型
+delete ICClassPackObject where FSrcClassTypeId=200000073
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000073,'8095AECC-3566-2D49-B4C5-8A70917BF085',0,1)
+
+--维修中断
+delete ICClassPackObject where FSrcClassTypeId=200000074
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000074,'85F76981-CF7E-874B-86DC-5C42FDD3222D',0,4)
+
+--维修质检
+delete ICClassPackObject where FSrcClassTypeId=200000075
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000075,'AA258FAD-9488-A845-BDD0-A7B650E7EDF6',0,4)
+
+--洗车单
+delete ICClassPackObject where FSrcClassTypeId=200000076
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000076,'D3BB3B05-EBDA-DD4B-BE64-A2154142741C',0,4)
+
+--新车销售回访
+delete ICClassPackObject where FSrcClassTypeId=200000077
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000077,'7659F9F5-5092-E443-984E-3932BEA30642',0,4)
+
+--回访不成功原因
+delete ICClassPackObject where FSrcClassTypeId=200000078
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000078,'0934C8BF-AE1C-F049-A0F1-B7975EBF39AD',0,1)
+
+--客户满意度
+delete ICClassPackObject where FSrcClassTypeId=200000079
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000079,'A9B66EB5-EF99-6445-AA95-0D074637473E',0,1)
+
+--售后维修回访
+delete ICClassPackObject where FSrcClassTypeId=200000080
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000080,'E8135E31-8F83-A24E-BD0F-CF1A04B88E41',0,4)
+
+--潜在客户回访
+delete ICClassPackObject where FSrcClassTypeId=200000081
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000081,'4FAEE2BB-F9DB-F948-B099-D99244C698F1',0,4)
+
+--定期保养提醒
+delete ICClassPackObject where FSrcClassTypeId=200000082
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000082,'9EFDE396-88C9-6D41-9602-CC84F4C4406A',0,4)
+
+--保险到期提醒
+delete ICClassPackObject where FSrcClassTypeId=200000083
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000083,'67599906-614B-B448-BAFF-02A1C68245A3',0,4)
+
+--保修到期提醒
+delete ICClassPackObject where FSrcClassTypeId=200000084
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000084,'98E7CB9B-7754-5B49-9A58-A7351840E3D5',0,4)
+
+--生日祝福
+delete ICClassPackObject where FSrcClassTypeId=200000085
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000085,'F48DC5B6-0BC1-1C46-8301-175345DC2107',0,4)
+
+--节日定义
+delete ICClassPackObject where FSrcClassTypeId=200000086
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000086,'810761DF-2FFF-5249-9189-027255426EDF',0,1)
+
+--节日问候
+delete ICClassPackObject where FSrcClassTypeId=200000087
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000087,'1A4E71E9-95D1-3C4E-B52D-0322FF622544',0,4)
+
+--客户投诉单
+delete ICClassPackObject where FSrcClassTypeId=200000088
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000088,'66BE67FA-7300-4E47-A6B5-4E5C5667FA59',0,4)
+
+--投诉类型4S
+delete ICClassPackObject where FSrcClassTypeId=200000089
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000089,'6FA9910A-ED8F-CC40-B846-D5D3B22DF4AC',0,1)
+
+--投诉性质
+delete ICClassPackObject where FSrcClassTypeId=200000090
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000090,'56F80AD1-6A3A-4440-9E2B-7218336A9A60',0,1)
+
+--满意度调查方案
+delete ICClassPackObject where FSrcClassTypeId=200000091
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000091,'E913FCBA-E767-8640-ADB2-80547DCB425A',0,4)
+
+--调查方案类型
+delete ICClassPackObject where FSrcClassTypeId=200000092
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000092,'8EFBC3B4-2025-8841-A95D-F0819C26F10F',0,1)
+
+--满意度问题分类
+delete ICClassPackObject where FSrcClassTypeId=200000093
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000093,'6887AD4F-6327-7D47-8B9B-4C7CA11828F0',0,1)
+
+--满意度调查计划
+delete ICClassPackObject where FSrcClassTypeId=200000094
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000094,'64DF2744-209A-2742-B5E8-9EFF081596F8',0,4)
+
+--满意度调查登记
+delete ICClassPackObject where FSrcClassTypeId=200000095
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000095,'272AD03A-6B34-6643-B86E-4B8E82248B85',0,4)
 
 
 
