@@ -46,10 +46,10 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     bindingBillTypeNum = m_BillInterface.GetFieldValue("FComboBox") '关联单类型
     
     If BOSTool.ToolName = "mnuBinding" Then '关联
-       If Val(m_BillInterface.GetFieldValue("FCheckerID_CN")) = 0 Then
-            MsgBox "未审核,不允许关联", vbInformation, "金蝶提示"
-            Exit Sub
-       End If
+'       If Val(m_BillInterface.GetFieldValue("FCheckerID_CN")) = 0 Then
+'            MsgBox "未审核,不允许关联", vbInformation, "金蝶提示"
+'            Exit Sub
+'       End If
        If Val(m_BillInterface.GetFieldValue("FInteger1")) > 0 Then '关联单内码
             MsgBox "已关联单据", vbInformation, "金蝶提示"
             Exit Sub

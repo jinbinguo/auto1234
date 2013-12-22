@@ -38,7 +38,7 @@ End Sub
 
 Private Sub m_BillInterface_AfterSelBill(ByVal lSelBillType As Long)
     
-   If lSelBillType = 200000045 Then '代办服务
+   If lSelBillType = 200000045 Or lSelBillType = 200000048 Or lSelBillType = 200000047 Then '代办服务、按揭登记、保险登记单
        ' m_BillInterface.SetFieldValue "FSaleStyle", "FXF02" '销售方式=赊销
        ' m_BillInterface.InsertNewRowAndFill 3, m_BillInterface.BillEntrys(2).GridMaxDataRowNum + 1, nil
         isBotp = True

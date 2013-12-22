@@ -51,6 +51,7 @@ Private Sub m_BillInterface_CommandClick(ByVal CommandName As String, bCancel As
         MsgBox "请先执行获取信息", vbInformation, "金蝶提示"
         Exit Sub
     End If
+    Clipboard.Clear
     Clipboard.SetText "机构名称:" & orgName & vbCrLf & "机器码:" & machineId
     MsgBox "成功复制信息于剪贴板！", vbInformation, "金蝶提示"
 End Sub

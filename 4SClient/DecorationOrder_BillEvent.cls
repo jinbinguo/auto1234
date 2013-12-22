@@ -44,11 +44,24 @@ Private Sub m_BillInterface_AfterSelBill(ByVal lSelBillType As Long)
     vehicleId = Val(m_BillInterface.GetFieldValue("FBase2")) '车辆
     loadVehicleInfo vehicleId, -1
     setDisByVehicleUI
+    If (lSelBillType = 200000028) Then '来源单为整车销售订单
+        Dim entryId_src As Integer
+        Dim id_src As Integer
+        Dim rs As ADODB.Recordset
+        entryId_src = Val(m_BillInterface.GetFieldValue("FEntryID_SRC"))
+        id_src = Val(m_BillInterface.GetFieldValue("FID_SRC"))
+        Set rs = m_BillInterface.K3Lib.GetData("select FIndex from T_ATS_VehicleSaleOrderEntry where fid=" & id_src & " and FEntryId=" & entryId_src)
+        If Not rs.EOF Then
+            m_BillInterface.SetFieldValue "FInteger", rs!FIndex
+        End If
+    End If
+    
 End Sub
 
 
 Private Sub setDisByVehicleUI()
-
+    Dim rs As ADODB.Recordset
+    Dim sql As String
     Dim dctDisByVehicle As KFO.Dictionary
     Set dctDisByVehicle = m_BillInterface.GetFieldInfoByKey("FAmount10", "", -1)
     Dim sourceId As Long
@@ -59,6 +72,30 @@ Private Sub setDisByVehicleUI()
     Else
         m_BillInterface.LockCell dctDisByVehicle, -1, True
     End If
+    
+    '是否转单过来，若转单过来，但未配车，先将销售订单的车辆配置信息带回精品销售订单
+    Dim sourceTypeId As Long
+    sourceTypeId = Val(m_BillInterface.GetFieldValue("FClassID_SRC"))
+    Dim sourceEntryId As Long
+    sourceEntryId = Val(m_BillInterface.GetFieldValue("FEntryID_SRC"))
+    Dim vehicleId As Integer
+    vehicleId = Val(m_BillInterface.GetFieldValue("FBase2")) '车辆
+    
+    If vehicleId = 0 And sourceTypeId = 200000028 And sourceEntryId > 0 Then '来源为整车销售订单
+        sql = "select c.FName FSeriesName,b.FName FModelName,b.FCfgDesc from T_ATS_VehicleSaleOrderEntry a" & _
+              " left join T_ATS_Model b on b.FID=a.FModelId and b.FID<>0 " & _
+              " left join T_ATS_Series c on c.FID=b.FSeriesID and c.FID<>0 " & _
+              " where a.FID=" & sourceId & " and a.FEntryID=" & sourceEntryId
+        Set rs = m_BillInterface.K3Lib.GetData(sql)
+        If Not rs.EOF Then
+            m_BillInterface.SetFieldValue "FBaseProperty1", rs!FSeriesName
+            m_BillInterface.SetFieldValue "FBaseProperty2", rs!FModelName
+            m_BillInterface.SetFieldValue "FBaseProperty4", rs!FCfgDesc
+        End If
+
+    
+    End If
+    
 End Sub
 
 Private Sub loadVehicleInfo(vehicleId As Integer, lRow As Long)

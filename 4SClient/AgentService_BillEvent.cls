@@ -80,6 +80,31 @@ Private Sub setDisByVehicleUI()
     Else
         m_BillInterface.LockCell dctDisByVehicle, -1, True
     End If
+    
+     '是否转单过来，若转单过来，但未配车，先将销售订单的车辆配置信息带回精品销售订单
+    Dim sourceTypeId As Long
+    sourceTypeId = Val(m_BillInterface.GetFieldValue("FClassID_SRC"))
+    Dim sourceEntryId As Long
+    sourceEntryId = Val(m_BillInterface.GetFieldValue("FEntryID_SRC"))
+    Dim vehicleId As Integer
+    vehicleId = Val(m_BillInterface.GetFieldValue("FBase2")) '车辆
+    
+    If vehicleId = 0 And sourceTypeId = 200000028 And sourceEntryId > 0 Then '来源为整车销售订单
+        sql = "select c.FName FSeriesName,b.FName FModelName,b.FCfgDesc,d.FName FBrandName from T_ATS_VehicleSaleOrderEntry a" & _
+              " left join T_ATS_Model b on b.FID=a.FModelId and b.FID<>0 " & _
+              " left join T_ATS_Series c on c.FID=b.FSeriesID and c.FID<>0 " & _
+              " left join T_ATS_Brand d on d.FID=c.FBrandID and d.FID<>0" & _
+              " where a.FID=" & sourceId & " and a.FEntryID=" & sourceEntryId
+        Set rs = m_BillInterface.K3Lib.GetData(sql)
+        If Not rs.EOF Then
+            m_BillInterface.SetFieldValue "FBaseProperty1", rs!FBrandName
+            m_BillInterface.SetFieldValue "FBaseProperty1", rs!FSeriesName
+            m_BillInterface.SetFieldValue "FBaseProperty2", rs!FModelName
+            m_BillInterface.SetFieldValue "FBaseProperty3", rs!FCfgDesc
+        End If
+
+    
+    End If
 End Sub
 
 
@@ -120,7 +145,7 @@ Private Sub loadVehicleInfo(vehicleId As Integer, lRow As Long)
     Dim rs As ADODB.Recordset
     Dim sql As String
     If (vehicleId > 0) Then
-        sql = "select FBrandName,FModelName,FSeriesName,FCfgDesc from V_ATS_Vehicle " & _
+        sql = "select FBrandName,FModelName,FSeriesName,FCfgDesc,FCarOwner from V_ATS_Vehicle " & _
             "where FID=" & CStr(vehicleId)
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         setVehicleInfo rs, lRow
