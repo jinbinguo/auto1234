@@ -19,8 +19,19 @@ from #All a left join ICClassMCTableInfo b on a.FTemplateID = b.FTemplateID
 and a.FNextLevelTagIndex = b.FTagIndex
 left join t_user c on a.fbillerid = c.fuserid
  
- 
+
  
 drop table #all
+
+
+
+ delete from ICClassMessage where FID in(select FMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ delete from ICClassMessage where FID in(select FUnCheckMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ delete from ICClassMessageUser where FMessageID in(select FMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ delete from ICClassMessageUser where FMessageID in(select FUnCheckMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ delete from ICClassMessageUserVar where FMessageID in(select FMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ delete from ICClassMessageUserVar where FMessageID in(select FUnCheckMessageID from ICClassMCTableInfo where ftemplateid= 112)
+ DELETE FROM [ICClassMCTableInfo] WHERE FTemplateID=112
+ DELETE FROM [ICClassMCTemplate] WHERE FID=112
 
 
