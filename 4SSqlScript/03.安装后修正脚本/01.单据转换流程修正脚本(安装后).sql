@@ -1,14 +1,16 @@
-/**
-	解决部署安装后，修正单据转换流程为启用状态
-*/
-
 begin try
 begin tran
 --按揭登记转其他应付单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000048 and FDestClassTypeID=1000022;
 
+--按揭登记转其他应收单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000048 and FDestClassTypeID=1000021;
+
 --保险登记单转其他应付单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000047 and FDestClassTypeID=1000022;
+
+--保险登记单转其他应收单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000047 and FDestClassTypeID=1000021;
 
 --代办服务转按揭登记
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000045 and FDestClassTypeID=200000048;
@@ -27,9 +29,6 @@ update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000058 and FDestClas
 
 --精品加装单转生产领料单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000058 and FDestClassTypeID=-24;
-
---精品加装单转销售出库
-update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000058 and FDestClassTypeID=-21;
 
 --精品配件销售订单转精品加装单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000054 and FDestClassTypeID=200000058;
