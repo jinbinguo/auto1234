@@ -219,6 +219,7 @@ Private Sub btnQuery_Click()
    
     Dim customerId As Long
     Dim modelId As Long
+    Dim carOwner As String
     
     bindingBillTypeName = cmbBillType.Text
     bindingBillTypeNum = ""
@@ -258,6 +259,7 @@ Private Sub btnQuery_Click()
     
     customerId = Val(m_BillInterface.GetFieldValue("FCustomer")) '客户
     modelId = Val(m_BillInterface.GetFieldValue("FBase")) '车型
+    carOwner = m_BillInterface.GetFieldValue("FText1") '车主
     
     If bindingBillTypeNum = "200000028" Then '整车销售订单
         Caption = "关联销售订单"
@@ -265,7 +267,7 @@ Private Sub btnQuery_Click()
               "left join T_ATS_VehicleSaleOrder b on a.fid=b.fid and b.FID<>0 " & _
               "left join T_ATS_Vehicle c on c.fid=a.FVehicleID and c.FID<>0 " & _
               "left join t_Organization d on d.FItemID=b.FCustomerID and d.FItemID<>0 " & _
-              "where b.FMultiCheckStatus='16'and b.FCustomerID=" & customerId & " and a.FModelId=" & modelId
+              "where b.FMultiCheckStatus='16'and b.FCustomerID=" & customerId & " and a.FModelId=" & modelId & " and b.FCarOwner='" & carOwner & "'"
             
     ElseIf bindingBillTypeNum = "200000054" Then '精品配件销售订单
         sql = "select a.FID,a.FBillNo 单号,0 FEntryID,0 FIndexID,b.FVIN 底盘号,c.FName 客户,d.FBillNo_SRC 整车销售订单 from T_ATS_DecorationOrder  a " & _
@@ -279,7 +281,7 @@ Private Sub btnQuery_Click()
               "left join T_ATS_Vehicle b on b.FID=a.FVehicleID and b.FID <> 0 " & _
               "left join t_Organization c on c.FItemID =a.FCustomerID and c.FItemID<>0 " & _
               "left join T_ATS_AgentServiceSource d on d.FID=a.FID and d.FClassID_SRC=200000028 and d.FID<>0 " & _
-              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId
+              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId & " and a.FCarOwner='" & carOwner & "'"
     Else
         MsgBox "请先选择有效的关联单类型", vbInformation, "金蝶提示"
         Exit Sub

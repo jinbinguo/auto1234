@@ -124,7 +124,7 @@ End Function
 
 Private Sub btnBinding_Click()
     Dim currentRow As Integer
-    currentRow = gridBill.row
+    currentRow = gridBill.Row
     If currentRow = 0 Then
         MsgBox "请选择数据行!"
         Exit Sub
@@ -252,6 +252,7 @@ Private Sub btnQuery_Click()
     Dim modelId As Long
     Dim supplierId As Long
     Dim itemClassId As Long
+    Dim carOwner As String
     
     bindingBillTypeName = cmbBillType.Text
     bindingBillTypeNum = ""
@@ -272,7 +273,7 @@ Private Sub btnQuery_Click()
     gridRowCount = gridBill.Rows
     For i = 1 To gridRowCount - 1
         If gridBill.Rows = 2 Then
-            gridBill.row = 1
+            gridBill.Row = 1
             For j = 1 To gridBill.Cols - 1
                 gridBill.Col = j
                 gridBill.Text = ""
@@ -293,6 +294,7 @@ Private Sub btnQuery_Click()
     modelId = Val(m_BillInterface.GetFieldValue("FBase2")) '车型
     supplierId = Val(m_BillInterface.GetFieldValue("FCustomer")) '供应商
     itemClassId = Val(m_BillInterface.GetFieldValue("FItemClassID")) '收款单位类别
+    carOwner = m_BillInterface.GetFieldValue("FText1") '车主
     
     If bindingBillTypeNum = "200000028" Then '整车销售订单
         Caption = "关联销售订单"
@@ -300,7 +302,7 @@ Private Sub btnQuery_Click()
               "left join T_ATS_VehicleSaleOrder b on a.fid=b.fid and b.FID<>0 " & _
               "left join T_ATS_Vehicle c on c.fid=a.FVehicleID and c.FID<>0 " & _
               "left join t_Organization d on d.FItemID=b.FCustomerID and d.FItemID<>0 " & _
-              "where b.FMultiCheckStatus='16' and b.FCustomerID=" & customerId & " and a.FModelId=" & modelId
+              "where b.FMultiCheckStatus='16' and b.FCustomerID=" & customerId & " and a.FModelId=" & modelId & " and b.FCarOwner='" & carOwner & "'"
             
     ElseIf bindingBillTypeNum = "200000054" Then '精品配件销售订单
         sql = "select a.FID,a.FBillNo 单号,0 FEntryID,0 FIndexID,b.FVIN 底盘号,c.FName 客户,d.FBillNo_SRC 整车销售订单 from T_ATS_DecorationOrder a " & _
@@ -314,7 +316,7 @@ Private Sub btnQuery_Click()
               "left join T_ATS_Vehicle b on b.FID=a.FVehicleID and b.FID <> 0 " & _
               "left join t_Organization c on c.FItemID =a.FCustomerID and c.FItemID<>0 " & _
               "left join T_ATS_AgentServiceSource d on d.FID=a.FID and d.FClassID_SRC=200000028 and d.FID<>0 " & _
-              "where a.FMultiCheckStatus='16'and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId
+              "where a.FMultiCheckStatus='16'and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId & " and a.FCarOwner='" & carOwner & "'"
     ElseIf bindingBillTypeNum = "200000023" Then '整车采购订单
         
         If (itemClassId <> 8) Then
@@ -353,7 +355,7 @@ Private Sub btnQuery_Click()
     Next i
     gridBill.ColWidth(0) = 500
     For i = 1 To gridBill.Cols - 1
-        gridBill.row = 0
+        gridBill.Row = 0
         gridBill.Col = i
         gridBill.ColWidth(i) = 1300
         If InStr(gridBill.Text, "ID") > 0 Then
@@ -364,10 +366,6 @@ Private Sub btnQuery_Click()
     
     
     
-End Sub
-
-Private Sub Form_Load()
-
 End Sub
 
 Private Sub gridBill_Click()
