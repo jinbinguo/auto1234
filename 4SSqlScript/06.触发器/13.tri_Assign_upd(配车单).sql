@@ -68,6 +68,7 @@ begin
 				update a  
 				 set a.FVehicleStatus=2, 
 					a.FCustomerID=(select FCustomerID from T_ATS_VehicleSaleOrder where fid=@sourceInterId),  
+					a.FCarOwner = (select FCarOwner from T_ATS_VehicleSaleOrder where fid=@sourceInterId),
 					a.FOptional= @strOptional
 				from t_ats_vehicle a  		
 				where fid= @vehicleId;
@@ -118,7 +119,8 @@ begin
 				-- 更新车辆状态为在售中
 				update t_ats_vehicle
 				 set FVehicleStatus=1,
-				 FCustomerId=0 
+				 FCustomerId=0,
+				 FCarOwner=''
 				 where fid=@vehicleId;
 				 
 				 --清除销售订单的配车标记

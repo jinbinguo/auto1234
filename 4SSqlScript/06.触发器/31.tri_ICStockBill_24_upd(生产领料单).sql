@@ -31,6 +31,7 @@ BEGIN
 		end
 		if (@isAudit = 1)
 		begin
+			--精品预加装流程:精品销售订单->精品加装单->生产领料单
 			--更新精品加装单已出库数量
 			update a
 			set FIssueQty=FIssueQty + (select isnull(b.FQty,0) from ICStockBillEntry b where b.FInterID=@interId 
