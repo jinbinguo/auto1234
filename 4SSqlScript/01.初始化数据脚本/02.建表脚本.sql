@@ -1,3 +1,4 @@
+--------------注册信息
 if not exists (select 1  from sysobjects where name='T_ATS_RegInfo' and xtype='U')
 begin
 	CREATE TABLE T_ATS_RegInfo(
@@ -8,3 +9,17 @@ begin
 	) ON [PRIMARY]
 end
 go 
+
+-------------审核中流程数据中间表
+if not exists (select 1  from sysobjects where name='T_ATS_MCStatusTemp' and xtype='U')
+begin
+	CREATE TABLE T_ATS_MCStatusTemp(
+		FMCStatusName varchar(50),
+		FID int,
+		FBillID int,
+		FOldTemplateID int,
+		FNewTemplateID int
+	) ON [PRIMARY]
+end
+go 
+

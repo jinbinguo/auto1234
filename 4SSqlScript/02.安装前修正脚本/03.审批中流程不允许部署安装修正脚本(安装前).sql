@@ -1,7 +1,7 @@
 declare @sql nvarchar(4000);
 declare @mcStatusName varchar(50);
 declare @icclassTypeId int;
-declare @billName varchar(50);
+
 
 if exists (select 1 from tempdb.dbo.sysobjects where id=object_id(N'tempdb..#tmpTable') and type='u')
 		drop table #tmpTable;
@@ -18,7 +18,7 @@ fetch cur into @mcStatusName;
 while (@@FETCH_STATUS=0)
 begin
 	set @icclassTypeId = cast(substring(@mcStatusName,16,len(@mcStatusName)-15) as int);
-	select @billName=FName_CHS from ICClassType where FID=@icclassTypeId;
+	--select @billName=FName_CHS from ICClassType where FID=@icclassTypeId;
 	truncate table #tmpTable;
 	set @sql = 'insert into #tmpTable(FMaxID,FBillID,FTemplateID)
 		select MAX(FID),FBillID,FTemplateID from ' + @mcStatusName + ' where FTemplateID<> 999999 group by FTemplateID,FBillID '
