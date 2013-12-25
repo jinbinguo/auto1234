@@ -119,51 +119,52 @@ Private Sub showPurOrder()
     Set dctRow = oData("Page2")(1).CloneAll()
     Dim rowPurOrder As Integer
     Dim rowPurPlan As Integer
-    Dim Row As Integer
+    Dim row As Integer
     For rowPurPlan = 1 To m_BillInterface.BillEntrys(1).GridMaxDataRowNum
         For rowPurOrder = 1 To Val(m_BillInterface.GetFieldValue("FQty1", rowPurPlan)) '本次采购数量
-            Row = Row + 1
-            If Row > 1 Then
+            row = row + 1
+            If row > 1 Then
                 oData("Page2").Add dctRow.CloneAll()
             End If
-            oData("Page2")(Row)(oTableInfo("map")("FBase8"))("FFND") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FFND) '车系编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase8"))("FFLD") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FFLD) '车系内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase8"))("FDSP") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FDSP) '车系名称
+            oData("Page2")(row)(oTableInfo("map")("FIndex2"))("FFLD") = row '行号
+            oData("Page2")(row)(oTableInfo("map")("FBase8"))("FFND") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FFND) '车系编码
+            oData("Page2")(row)(oTableInfo("map")("FBase8"))("FFLD") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FFLD) '车系内码
+            oData("Page2")(row)(oTableInfo("map")("FBase8"))("FDSP") = m_BillInterface.GetFieldValue("FBase3", rowPurPlan, Enu_ValueType_FDSP) '车系名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FBase9"))("FFND") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FFND) '车型编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase9"))("FFLD") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FFLD) '车型内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase9"))("FDSP") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FDSP) '车型名称
+            oData("Page2")(row)(oTableInfo("map")("FBase9"))("FFND") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FFND) '车型编码
+            oData("Page2")(row)(oTableInfo("map")("FBase9"))("FFLD") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FFLD) '车型内码
+            oData("Page2")(row)(oTableInfo("map")("FBase9"))("FDSP") = m_BillInterface.GetFieldValue("FBase4", rowPurPlan, Enu_ValueType_FDSP) '车型名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FBaseProperty6"))("FDSP") = m_BillInterface.GetFieldValue("FBaseProperty", rowPurPlan) '配置说明
+            oData("Page2")(row)(oTableInfo("map")("FBaseProperty6"))("FDSP") = m_BillInterface.GetFieldValue("FBaseProperty", rowPurPlan) '配置说明
             
-            oData("Page2")(Row)(oTableInfo("map")("FBase5"))("FFND") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FFND) '内饰编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase5"))("FFLD") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FFLD) '内饰内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase5"))("FDSP") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FDSP) '内饰名称
+            oData("Page2")(row)(oTableInfo("map")("FBase5"))("FFND") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FFND) '内饰编码
+            oData("Page2")(row)(oTableInfo("map")("FBase5"))("FFLD") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FFLD) '内饰内码
+            oData("Page2")(row)(oTableInfo("map")("FBase5"))("FDSP") = m_BillInterface.GetFieldValue("FBase5", rowPurPlan, Enu_ValueType_FDSP) '内饰名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FBase6"))("FFND") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FFND) '颜色编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase6"))("FFLD") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FFLD) '颜色内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase6"))("FDSP") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FDSP) '颜色名称
+            oData("Page2")(row)(oTableInfo("map")("FBase6"))("FFND") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FFND) '颜色编码
+            oData("Page2")(row)(oTableInfo("map")("FBase6"))("FFLD") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FFLD) '颜色内码
+            oData("Page2")(row)(oTableInfo("map")("FBase6"))("FDSP") = m_BillInterface.GetFieldValue("FBase6", rowPurPlan, Enu_ValueType_FDSP) '颜色名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FText5"))("FFLD") = m_BillInterface.GetFieldValue("FText", rowPurPlan)   '选装
-            oData("Page2")(Row)(oTableInfo("map")("FNOTE1"))("FFLD") = m_BillInterface.GetFieldValue("FNOTE", rowPurPlan)   '行备注
+            oData("Page2")(row)(oTableInfo("map")("FText5"))("FFLD") = m_BillInterface.GetFieldValue("FText", rowPurPlan)   '选装
+            oData("Page2")(row)(oTableInfo("map")("FNOTE1"))("FFLD") = m_BillInterface.GetFieldValue("FNOTE", rowPurPlan)   '行备注
             
-            oData("Page2")(Row)(oTableInfo("map")("FBase4"))("FFND") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FFND) '计量单位编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase4"))("FFLD") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FFLD) '计量单位内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase4"))("FDSP") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FDSP) '计量单位名称
+            oData("Page2")(row)(oTableInfo("map")("FBase4"))("FFND") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FFND) '计量单位编码
+            oData("Page2")(row)(oTableInfo("map")("FBase4"))("FFLD") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FFLD) '计量单位内码
+            oData("Page2")(row)(oTableInfo("map")("FBase4"))("FDSP") = m_BillInterface.GetFieldValue("FBase8", rowPurPlan, Enu_ValueType_FDSP) '计量单位名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FQty"))("FFLD") = 1 '数量
+            oData("Page2")(row)(oTableInfo("map")("FQty"))("FFLD") = 1 '数量
             
             '--价格处理 计算出单价，其他金额字段自动反算，但用含税单价却不反算
-            oData("Page2")(Row)(oTableInfo("map")("FPrice"))("FFLD") = m_BillInterface.GetFieldValue("FPrice", rowPurPlan) / (1 + 17 / 100#) '单价
+            oData("Page2")(row)(oTableInfo("map")("FPrice"))("FFLD") = m_BillInterface.GetFieldValue("FPrice", rowPurPlan) / (1 + 17 / 100#) '单价
             
-            oData("Page2")(Row)(oTableInfo("map")("FBase3"))("FFND") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FFND) '物料编码
-            oData("Page2")(Row)(oTableInfo("map")("FBase3"))("FFLD") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FFLD) '物料内码
-            oData("Page2")(Row)(oTableInfo("map")("FBase3"))("FDSP") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FDSP) '物料名称
+            oData("Page2")(row)(oTableInfo("map")("FBase3"))("FFND") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FFND) '物料编码
+            oData("Page2")(row)(oTableInfo("map")("FBase3"))("FFLD") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FFLD) '物料内码
+            oData("Page2")(row)(oTableInfo("map")("FBase3"))("FDSP") = m_BillInterface.GetFieldValue("FBase7", rowPurPlan, Enu_ValueType_FDSP) '物料名称
             
-            oData("Page2")(Row)(oTableInfo("map")("FBillNo_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FBillNo") '源单据编号
-            oData("Page2")(Row)(oTableInfo("map")("FID_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FID2", rowPurPlan) '源单据ID
-            oData("Page2")(Row)(oTableInfo("map")("FEntryID_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FEntryID2", rowPurPlan) '源单据分录ID
-            oData("Page2")(Row)(oTableInfo("map")("FClassID_SRC"))("FFLD") = 200000066 '源单据类型
+            oData("Page2")(row)(oTableInfo("map")("FBillNo_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FBillNo") '源单据编号
+            oData("Page2")(row)(oTableInfo("map")("FID_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FID2", rowPurPlan) '源单据ID
+            oData("Page2")(row)(oTableInfo("map")("FEntryID_SRC"))("FFLD") = m_BillInterface.GetFieldValue("FEntryID2", rowPurPlan) '源单据分录ID
+            oData("Page2")(row)(oTableInfo("map")("FClassID_SRC"))("FFLD") = 200000066 '源单据类型
             
         Next rowPurOrder
         
@@ -220,7 +221,7 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     End If
 End Sub
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     
     If (dct("FKey") = "FBase3") Then '车系
         Dim seriesId As Integer
@@ -235,7 +236,7 @@ Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As
     ElseIf (dct("FKey") = "FBase4") Then '车型
         Dim modelId As Integer
         modelId = Val(dctFld("FFLD"))
-        loadModelInfo modelId, Row
+        loadModelInfo modelId, row
     End If
     
     

@@ -1,5 +1,5 @@
 Base_MiddlewareEvent = 78, 78, 719, 494, C
 Register_MiddlewareEvent = 182, 182, 823, 598, C
 DBUtils = 0, 0, 0, 0, C
-ENUtils = 0, 0, 0, 0, C
-RegUtils = 0, 0, 0, 0, C
+ENUtils = 0, 0, 754, 426, C
+RegUtils = 78, 78, 832, 504, C

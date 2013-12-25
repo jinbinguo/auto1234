@@ -77,16 +77,12 @@ begin
 					abc)
 				from T_ATS_VehicleSaleOrderEntry b
 				where b.fid=@saleOrderId and b.FEntryID=@saleOrderEntryId;
+				update a
+				set FTotalARAmount = FARVehicleAmount + FARGitwareAmount + FARAgentAmount - FSecondHandAmount
+				from T_ATS_VehicleSaleOrderEntry a
+				where a.fid=@saleOrderId and a.FEntryID=@saleOrderEntryId;
+
 			end 
-			 
-
-
-			update a
-			set FTotalARAmount = FARVehicleAmount + FARGitwareAmount + FARAgentAmount - FSecondHandAmount
-			from T_ATS_VehicleSaleOrderEntry a
-			where a.fid=@saleOrderId and a.FEntryID=@saleOrderEntryId;
-
-
 		end;
 
 		set @isAudit = 0;

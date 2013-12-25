@@ -23,16 +23,17 @@ Public Sub validateLicenseClient(ByVal m_BillInterface As BillEvent)
     sql = "select FMachineCiphertext,FOrgNameCiphertext,FBeginDateCiphertext,FEndDateCiphertext  from T_ATS_RegInfo "
     Set rs = m_BillInterface.K3Lib.GetData(sql)
     If Not rs.EOF Then
-        If Not machineId = ENUtils.decode(orgName, rs!FMachineCiphertext) Then
-            Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!"
-        End If
+     '客户机获取不到服务器机器码
+     '   If Not machineId = ENUtils.decode(orgName, rs!FMachineCiphertext) Then
+     '       Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!"
+     '   End If
         If Not orgName = ENUtils.decode(orgName, rs!FOrgNameCiphertext) Then
-            Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!"
+            Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!(机构异常)"
         End If
         beginDate = ENUtils.decode(orgName, rs!FBeginDateCiphertext)
         endDate = ENUtils.decode(orgName, rs!FEndDateCiphertext)
     Else
-        Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!"
+        Err.Raise 2, "Auto4S_License", "行业汽车4S授权License验证不通过!(缺失License)"
     End If
     
     sql = "select GETDATE() as currentDate"
@@ -49,7 +50,7 @@ Public Sub validateLicenseClient(ByVal m_BillInterface As BillEvent)
      
 errLine:
     If Err.Number = 13 Then '可能日期转换错误
-        Err.Raise Err.Number, Auto4S_License, "行业汽车4S授权License验证不通过!"
+        Err.Raise Err.Number, Auto4S_License, "行业汽车4S授权License验证不通过!(日期转换错误)"
 
     Else
         Err.Raise Err.Number, Err.Source, Err.Description

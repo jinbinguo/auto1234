@@ -67,13 +67,14 @@ errorLine:
 
 End Sub
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     
     If (dct("FKey") = "FBase7") Then '车辆
         Dim vehicleId As Integer
         vehicleId = Val(dctFld("FFLD"))
     
-        loadVehicleInfo vehicleId, Row
+        loadVehicleInfo vehicleId, row
     
     ElseIf (dct("FKey") = "FBase8") Then '车系
         Dim seriesId As Integer
@@ -88,7 +89,7 @@ Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As
     ElseIf (dct("FKey") = "FBase9") Then '车型
         Dim modelId As Integer
         modelId = Val(dctFld("FFLD"))
-        loadModelInfo modelId, Row
+        loadModelInfo modelId, row
     
     End If
     

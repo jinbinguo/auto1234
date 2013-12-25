@@ -80,6 +80,12 @@ begin
 			where exists (select 1 from T_ATS_AgentServiceSource a1 where 
 				a1.FID = @interId and a1.FClassID_SRC=200000028 and a1.FID_SRC=a.FID and a1.FEntryID_SRC =a.FEntryID)
 
+			update a
+			set FTotalARAmount = FARVehicleAmount + FARGitwareAmount + FARAgentAmount - FSecondHandAmount
+			from T_ATS_VehicleSaleOrderEntry a
+			where exists (select 1 from T_ATS_AgentServiceSource a1 where 
+				a1.FID = @interId and a1.FClassID_SRC=200000028 and a1.FID_SRC=a.FID and a1.FEntryID_SRC =a.FEntryID)
+
 
 
 		end;

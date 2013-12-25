@@ -8,7 +8,7 @@ as
 begin
 /**
 	原销售出库单转销售专用发票，此销售发票只能在销售模块中做业务处理，不能在财务模块中审核、反审核，
-	所以这里做了数据修正，请配合tri_ICSale_80_insDel触发器一起使用
+	所以这里做了数据修正，请配合28.tri_RPContact_3_ins\29.tri_ICSale_80_ins\30.tri_ICSaleEntry_21_Del触发器一起使用
 逻辑:
 	
 */

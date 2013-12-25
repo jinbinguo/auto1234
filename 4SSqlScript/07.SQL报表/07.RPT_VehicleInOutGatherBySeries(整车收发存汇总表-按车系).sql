@@ -37,21 +37,21 @@ BEGIN
 		FModelName varchar(100),
 		FStockName varchar(100),
 		FInitPurInQty decimal(10,0) default 0,
-		FInitPurInAmount decimal(10,0) default 0,
+		FInitPurInAmount decimal(10,2) default 0,
 		FInitMoveInQty decimal(10,0) default 0,
-		FInitMoveInAmount decimal(10,0) default 0,
+		FInitMoveInAmount decimal(10,2) default 0,
 		FInitMoveOutQty decimal(10,0) default 0,
-		FInitMoveOutAmount decimal(10,0) default 0,
+		FInitMoveOutAmount decimal(10,2) default 0,
 		FInitSaleOutQty decimal(10,0) default 0,
-		FInitSaleOutAmount decimal(10,0) default 0,
+		FInitSaleOutAmount decimal(10,2) default 0,
 		FPeriodPurInQty decimal(10,0) default 0,
-		FPeriodPurInAmount decimal(10,0) default 0,
+		FPeriodPurInAmount decimal(10,2) default 0,
 		FPeriodMoveInQty decimal(10,0) default 0,
-		FPeriodMoveInAmount decimal(10,0) default 0,
+		FPeriodMoveInAmount decimal(10,2) default 0,
 		FPeriodMoveOutQty decimal(10,0) default 0,
-		FPeriodMoveOutAmount decimal(10,0) default 0,
+		FPeriodMoveOutAmount decimal(10,2) default 0,
 		FPeriodSaleOutQty decimal(10,0) default 0,
-		FPeriodSaleOutAmount decimal(10,0) default 0
+		FPeriodSaleOutAmount decimal(10,2) default 0
 	);
 
 	--ÆÚ³õ

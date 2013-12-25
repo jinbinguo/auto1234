@@ -55,8 +55,24 @@ Private Sub m_BillInterface_CompleteQueryData(ByVal lPage As Long, ByVal lEntryS
     saleOrderEntryId = Val(m_BillInterface.GetFieldValue("FEntryID_SRC"))
     Dim sql As String
     Dim rs As ADODB.Recordset
-    Dim Row As Integer
+    Dim row As Integer
     Dim totalReceiveAmt As Double
+    '=====================重取销售订单金额
+    sql = "select FARVehicleAmount,FARGitwareAmount,FARAgentAmount,FSecondHandAmount,FTotalARAmount " & _
+        "from T_ATS_VehicleSaleOrderEntry where FID=" & CStr(saleOrderId) & " and FEntryId=" & CStr(saleOrderEntryId)
+    Set rs = m_BillInterface.K3Lib.GetData(sql)
+    If Not rs.EOF Then
+    
+        m_BillInterface.SetFieldValue "FAmount5", rs!FARVehicleAmount  '整车应收金额
+        m_BillInterface.SetFieldValue "FAmount7", rs!FARGitwareAmount   '精品应收金额
+        m_BillInterface.SetFieldValue "FAmount8", rs!FARAgentAmount   '代办应收金额
+        m_BillInterface.SetFieldValue "FAmount1", rs!FTotalARAmount  '总应收金额
+        m_BillInterface.SetFieldValue "FAmount11", rs!FSecondHandAmount   '置换二手车收购价
+    End If
+    
+    
+    
+    '=============================收款明细
           '整车销售订单 精品销售订单 代办服务单
     sql = "select FDate,FNumber,FAmount_CN from t_RP_NewReceiveBill " & _
            " where FClassID_Binding=200000028 and FID_Binding=" & saleOrderId & " and FEntryID_Binding=" & saleOrderEntryId & _
@@ -71,20 +87,20 @@ Private Sub m_BillInterface_CompleteQueryData(ByVal lPage As Long, ByVal lEntryS
            " Order by FDate"
     Set rs = m_BillInterface.K3Lib.GetData(sql)
     
-    For Row = m_BillInterface.BillEntrys(1).GridMaxDataRowNum To 1 Step -1
-        m_BillInterface.BillEntrys(1).RemoveRow True, Row
-    Next Row
-    Row = 1
+    For row = m_BillInterface.BillEntrys(1).GridMaxDataRowNum To 1 Step -1
+        m_BillInterface.BillEntrys(1).RemoveRow True, row
+    Next row
+    row = 1
     While Not rs.EOF
-        m_BillInterface.InsertNewRowAndFill 2, Row, "FDate1", "2011-1-1" ' , "FText", rs!FNumber, "FAmount", rs!FAmount_CN, "FText1", "现金收款单"
+        m_BillInterface.InsertNewRowAndFill 2, row, "FDate1", "2011-1-1" ' , "FText", rs!FNumber, "FAmount", rs!FAmount_CN, "FText1", "现金收款单"
 
-        m_BillInterface.SetFieldValue "FDate1", rs!FDate, Row
-        m_BillInterface.SetFieldValue "FText", rs!FNumber, Row
-        m_BillInterface.SetFieldValue "FAmount", rs!FAmount_CN, Row
-        m_BillInterface.SetFieldValue "FText1", "现金收款单", Row
+        m_BillInterface.SetFieldValue "FDate1", rs!FDate, row
+        m_BillInterface.SetFieldValue "FText", rs!FNumber, row
+        m_BillInterface.SetFieldValue "FAmount", rs!FAmount_CN, row
+        m_BillInterface.SetFieldValue "FText1", "现金收款单", row
         totalReceiveAmt = totalReceiveAmt + rs!FAmount_CN
         rs.MoveNext
-        Row = Row + 1
+        row = row + 1
     Wend
     m_BillInterface.SetFieldValue "FAmount12", Val(m_BillInterface.GetFieldValue("FAmount1")) - totalReceiveAmt
 End Sub
@@ -103,7 +119,7 @@ Private Sub m_BillInterface_AfterSave(bCancel As Boolean)
  
     'TODO: 请在此处添加代码响应事件
     Dim sourceId As Integer
-    Dim sourceEntryID As Integer
+    Dim sourceEntryId As Integer
     
     Dim sql As String
     Dim rs As ADODB.Recordset
@@ -112,14 +128,14 @@ Private Sub m_BillInterface_AfterSave(bCancel As Boolean)
 
     checkBillID = m_BillInterface.GetFieldValue("FID")
     sourceId = m_BillInterface.GetFieldValue("FID_SRC")
-    sourceEntryID = m_BillInterface.GetFieldValue("FEntryID_SRC")
+    sourceEntryId = m_BillInterface.GetFieldValue("FEntryID_SRC")
     checkStatus = m_BillInterface.GetFieldValue("FComboBox") '结算状态
     
     '更新销售订单结算检查信息
     sql = "update T_ATS_VehicleSaleOrderEntry " & _
           "set FCheckStatus ='" & checkStatus & "'," & _
           "FSettlementCheckID=" & checkBillID & _
-          " where FID=" & sourceId & " and FEntryID=" & sourceEntryID
+          " where FID=" & sourceId & " and FEntryID=" & sourceEntryId
    m_BillInterface.K3Lib.UpdateData (sql)
    
    MsgBox "结算检查成功", vbInformation, "金蝶提示"
@@ -137,18 +153,18 @@ End Sub
 Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool, Cancel As Boolean)
     Dim sql As String
     Dim sourceId As Integer
-    Dim sourceEntryID As Integer
+    Dim sourceEntryId As Integer
     Dim checkBillID As Integer
     Dim rs As ADODB.Recordset
     Dim diffAmt As Double
     sourceId = Val(m_BillInterface.GetFieldValue("FID_SRC")) '销售订单ID
-    sourceEntryID = Val(m_BillInterface.GetFieldValue("FEntryID_SRC")) '销售订单分录ID
+    sourceEntryId = Val(m_BillInterface.GetFieldValue("FEntryID_SRC")) '销售订单分录ID
     checkBillID = Val(m_BillInterface.GetFieldValue("FID")) '检查单ID
     diffAmt = Val(m_BillInterface.GetFieldValue("FAmount12")) '差额
     
     
     If BOSTool.ToolName = "mnuFileSave" Then '正常通过
-        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryID
+        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If (Not rs.EOF) Then
             MsgBox "已结算检查通过，若需重新检查，请执行重新检查操作", vbInformation, "金蝶提示"
@@ -170,7 +186,7 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     End If
     
     If BOSTool.ToolName = "mnuSpecialPass" Then '特批通过
-        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryID
+        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If (Not rs.EOF) Then
             MsgBox "已结算检查通过，若需重新检查，请执行重新检查操作", vbInformation, "金蝶提示"
@@ -199,7 +215,7 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     End If
     
     If BOSTool.ToolName = "mnuUnPass" Then '不通过
-        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryID
+        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus<>'1' and FID=" & sourceId & " and FEntryID=" & sourceEntryId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If (Not rs.EOF) Then
             MsgBox "已结算检查通过，若需重新检查，请执行重新检查操作", vbInformation, "金蝶提示"
@@ -219,14 +235,14 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     End If
     
     If BOSTool.ToolName = "mnuReCheck" Then '重新检查
-        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus='1' and FID=" & sourceId & " and FEntryID=" & sourceEntryID
+        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FCheckStatus='1' and FID=" & sourceId & " and FEntryID=" & sourceEntryId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If (Not rs.EOF) Then
             MsgBox "未结算检查，无需重新检查", vbInformation, "金蝶提示"
             Cancel = True
             Exit Sub
         End If
-        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FIsIssue=1 and FID=" & sourceId & " and FEntryID=" & sourceEntryID
+        sql = "select 1 from T_ATS_VehicleSaleOrderEntry where FIsIssue=1 and FID=" & sourceId & " and FEntryID=" & sourceEntryId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If (Not rs.EOF) Then
             MsgBox "车辆已出库，不允许重新检查", vbInformation, "金蝶提示"
@@ -242,7 +258,7 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
         '清除检查标记
         sql = "update T_ATS_VehicleSaleOrderEntry " & _
               "set FCheckStatus='1' " & _
-              "where FID=" & sourceId & " and FEntryID=" & sourceEntryID
+              "where FID=" & sourceId & " and FEntryID=" & sourceEntryId
         '清除检查信息
         m_BillInterface.K3Lib.UpdateData (sql)
         sql = "update t_ats_SettlementCheck " & _
