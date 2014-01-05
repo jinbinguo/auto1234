@@ -57,7 +57,9 @@ begin
 					   a.FColorID=b.FColorID,
 					   a.FOptional=b.FOptional,
 					   a.FProductDate=b.FProductDate,
-					   a.FKeyNum=b.FKeyNum
+					   a.FKeyNum=b.FKeyNum,
+					   a.FCertificateNo=b.FCertificateNo,
+					   a.FFundingModeID=b.FFundingModeID
 					   from t_ats_vehicle a
 					   left join t_ats_vehiclePurCheckEntry b on b.FVehicleID=a.FID
 					   left join T_ATS_Model c on c.FID=b.FModelID and c.FID<>0
@@ -70,11 +72,13 @@ begin
 						insert into t_ats_vehicle(FID,FClassTypeID,FModelID,FCfgDesc,FVehicleStatus,
 						FVIN,FEngineNum,FBillNo,FPlateNum,FPlateColor,
 						FNOTE,FVehicleCreateType,FOptional,FInteriorID,FColorID,
-						FStatus,FStockID,FVehicleSource,FProductDate,FKeyNum)
+						FStatus,FStockID,FVehicleSource,FProductDate,FKeyNum,
+						FCertificateNo,FFundingModeID)
 						select @vehicleId,200000022,FModelID,b.FCfgDesc,'0',
 						a.FVin,a.FEngineNum,@vehicleNo,'','1',
 						'','2',a.FOptional,a.FInteriorID,a.FColorID,
-						'2',0,1,FProductDate,FKeyNum
+						'2',0,1,FProductDate,FKeyNum,
+						FCertificateNo,FFundingModeID
 						from t_ats_vehiclePurCheckEntry a 
 						left join t_ats_model b on b.fid=a.FModelID and b.FID<>0
 						  where a.FID=@interId and a.FEntryID=@entryId;
@@ -94,7 +98,8 @@ begin
 						a.FOptional=b.FOptional,
 						a.FVin=b.FVin,
 						a.FEngineNum=b.FEngineNum,
-						a.FIsAccept = 1
+						a.FIsAccept = 1,
+						a.FFundingModeID=b.FFundingModeID
 					from T_ATS_VehiclePurOrderEntry a
 					left join t_ats_vehiclePurCheckEntry b on b.FID_SRC=a.FID and b.FEntryID_SRC=a.FEntryID 
 						and b.FClassID_SRC=200000023 and b.FID<>0

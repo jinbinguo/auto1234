@@ -13,7 +13,7 @@ a.FDriverFormID,isnull(a.FCfgDesc,'') FCfgDesc,a.FICItemID,a.FUnitID,a.FMakerGui
 ISNULL(b.FName,'') FSeriesName,ISNULL(c.FName,'') FBrandName,ISNULL(d.FName,'') FDisplacementName,
 ISNULL(e.FName,'') FGearboxName,ISNULL(f.FName,'') FStereotypeName,ISNULL(g.FName,'') FPowerFormName,
 ISNULL(h.FName,'') FDriverFormName,ISNULL(i.FName,'') FCarSourceName,ISNULL(j.FName,'') FICItemName,
-ISNULL(k.FName,'') FUnitName
+ISNULL(k.FName,'') FUnitName,FMakerModel
 from T_ATS_Model a
 left join T_ATS_Series b on b.FID=a.FSeriesID
 left join T_ATS_Brand c on c.FID=b.FBrandID

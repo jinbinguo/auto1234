@@ -15,7 +15,7 @@ a.FStatus,a.FVehicleStatus,isnull(c.FName,'') FSeriesName,isnull(d.FName,'') FBr
 isnull(f.FName,'') FGearboxName,isnull(g.FName,'') FStereotypeName,isnull(b.FName,'') FModelName, isnull(h.FName,'') FPowerFormName,
 isnull(i.FName,'') FDriverFormName,isnull(j.FName,'') FCarSourceName, isnull(k.FInterior,'') FInteriorName,isnull(l.FColor,'') FColorName,
 isnull(m.FName,'') FICItemName,isnull(n.FName,'') FUnitName,ISNULL(o.FName,'') FInsuCompanyName,a.FPlateNum,a.FStockID,
-FModelID,FColorID,FInteriorID,FInsuCompanyID,c.FID FSeriesID,a.FCarOwner
+FModelID,FColorID,FInteriorID,FInsuCompanyID,c.FID FSeriesID,a.FCarOwner,FCertificateNo,FFundingModeID
 from T_ATS_Vehicle a
 left join T_ATS_Model b on b.FID=a.FModelID
 left join T_ATS_Series c on c.FID=b.FSeriesID 

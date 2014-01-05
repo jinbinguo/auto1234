@@ -34,7 +34,7 @@ Private Sub Class_Terminate()
 End Sub
 
 ' 在BOTP转单下，车辆关联数据重取
-Private Sub loadVehicleForBotpNew(ByVal vehicleId As Integer, ByVal Row As Long)
+Private Sub loadVehicleForBotpNew(ByVal vehicleId As Integer, ByVal row As Long)
     Dim rs As ADODB.Recordset
     Dim sql As String
     If (vehicleId > 0) Then
@@ -59,9 +59,9 @@ Private Sub loadVehicleForBotpNew(ByVal vehicleId As Integer, ByVal Row As Long)
         Exit Sub
     End If
     'm_BillInterface.SetFieldValue "FBase3", rs!FModelNum, row
-    m_BillInterface.SetFieldValue "FBaseProperty", rs!FSeriesName, Row
-    m_BillInterface.SetFieldValue "FBaseProperty1", rs!FCfgDesc, Row
-    m_BillInterface.SetFieldValue "FBaseProperty2", rs!FMakerModelNum, Row
+    m_BillInterface.SetFieldValue "FBaseProperty", rs!FSeriesName, row
+    m_BillInterface.SetFieldValue "FBaseProperty1", rs!FCfgDesc, row
+    m_BillInterface.SetFieldValue "FBaseProperty2", rs!FMakerModelNum, row
    ' m_BillInterface.SetFieldValue "FBaseProperty3", rs!FBrandName, Row
    ' m_BillInterface.SetFieldValue "FBaseProperty4", rs!FDisplacementName, Row
    ' m_BillInterface.SetFieldValue "FBaseProperty5", rs!FGearboxName, Row
@@ -72,7 +72,7 @@ Private Sub loadVehicleForBotpNew(ByVal vehicleId As Integer, ByVal Row As Long)
 End Sub
 
 ' 在BOTP转单下，车型关联数据重取
-Private Sub loadModelForBotpNew(ByVal modelId As Integer, ByVal Row As Long)
+Private Sub loadModelForBotpNew(ByVal modelId As Integer, ByVal row As Long)
     Dim rs As ADODB.Recordset
     Dim sql As String
     If (modelId > 0) Then
@@ -91,9 +91,9 @@ Private Sub loadModelForBotpNew(ByVal modelId As Integer, ByVal Row As Long)
    End If
     
     'm_BillInterface.SetFieldValue "FBase3", rs!FModelNum, row
-    m_BillInterface.SetFieldValue "FBaseProperty", rs!FSeriesName, Row
-    m_BillInterface.SetFieldValue "FBaseProperty1", rs!FCfgDesc, Row
-    m_BillInterface.SetFieldValue "FBaseProperty2", rs!FMakerModelNum, Row
+    m_BillInterface.SetFieldValue "FBaseProperty", rs!FSeriesName, row
+    m_BillInterface.SetFieldValue "FBaseProperty1", rs!FCfgDesc, row
+    m_BillInterface.SetFieldValue "FBaseProperty2", rs!FMakerModelNum, row
  '   m_BillInterface.SetFieldValue "FBaseProperty3", rs!FBrandName, Row
  '   m_BillInterface.SetFieldValue "FBaseProperty4", rs!FDisplacementName, Row
  '   m_BillInterface.SetFieldValue "FBaseProperty5", rs!FGearboxName, Row
@@ -125,3 +125,28 @@ Private Sub m_BillInterface_AfterFillRow(ByVal lRow As Long, ByVal dctPage As KF
     
 End Sub
 
+Public Sub Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long)
+    m_BillInterface_Change dct, dctFld, Col, row, False
+End Sub
+
+
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
+'
+End Sub
+
+Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool, Cancel As Boolean)
+     Dim importCls As Object
+    If BOSTool.ToolName = "mnuImportCheckData" Then
+        Set importCls = New VehiclePurCheckImportUpd
+        importCls.setBillInterface m_BillInterface, Me
+        ExcelUtils.openFile importCls
+        
+    ElseIf BOSTool.ToolName = "mnuFileImportBill" Then
+
+        Set importCls = New VehiclePurCheckImportUpd
+        importCls.setBillInterface m_BillInterface, Me
+        ExcelUtils.openFile importCls
+    
+    End If
+    
+End Sub

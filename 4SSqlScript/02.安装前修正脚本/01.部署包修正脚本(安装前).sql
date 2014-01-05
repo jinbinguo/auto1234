@@ -348,6 +348,14 @@ insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FTyp
 delete ICClassPackObject where FSrcClassTypeId=200000095
 insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000095,'272AD03A-6B34-6643-B86E-4B8E82248B85',0,4)
 
+--整车采购月预测单
+delete ICClassPackObject where FSrcClassTypeId=200000096
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000096,'7DB6C6D4-7DBD-2B43-A4C7-0919702864F5',0,4)
+
+--资金方式
+delete ICClassPackObject where FSrcClassTypeId=200000097
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000097,'1863DDD5-B677-B64F-B750-CC0DC640EAAE',0,1)
+
 
 
 if @@ERROR = 0 

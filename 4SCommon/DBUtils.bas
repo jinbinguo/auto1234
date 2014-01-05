@@ -83,15 +83,15 @@ herror:
 End Function
 
 Public Function GetConnectiongString(ByVal conn As String) As String
-On Error Resume Next
-Dim Result() As String '保存连接字符串
+    On Error Resume Next
+    Dim Result() As String '保存连接字符串
 
-  If InStrRev(conn, "{") > 1 Then
-    Result = Split(conn, "{")
-    Result = Split(Result(1), "}")
-    GetConnectiongString = Result(0)
-  Else
-   GetConnectiongString = conn
-  End If
+    If InStrRev(conn, "{") > 1 Then
+      Result = Split(conn, "{")
+      Result = Split(Result(1), "}")
+      GetConnectiongString = Result(0)
+    Else
+     GetConnectiongString = conn
+    End If
 
 End Function

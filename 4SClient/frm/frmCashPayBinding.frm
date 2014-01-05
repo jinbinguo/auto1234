@@ -87,7 +87,7 @@ Dim m_BillInterface As BillEvent
 Dim dctBillType As KFO.Dictionary
 Dim bindingBillTypeNum As String
 
-Public Function ShowForm(ByVal owner, billInterface As BillEvent) As String
+Public Function showForm(ByVal owner, billInterface As BillEvent) As String
 
     Set m_BillInterface = billInterface
     
@@ -102,12 +102,12 @@ Public Function ShowForm(ByVal owner, billInterface As BillEvent) As String
     
     
     For i = 1 To dctBillType.Count
-        cmbBillType.AddItem dctBillType.Value(dctBillType.Name(i)), i - 1
+        cmbBillType.AddItem dctBillType.value(dctBillType.Name(i)), i - 1
     Next i
     
     bindingBillTypeNum = m_BillInterface.GetFieldValue("FComboBox") '关联
     If dctBillType.Lookup(bindingBillTypeNum) Then
-        cmbBillType.Text = dctBillType.Value(bindingBillTypeNum)
+        cmbBillType.Text = dctBillType.value(bindingBillTypeNum)
         btnQuery_Click
     End If
      
@@ -124,7 +124,7 @@ End Function
 
 Private Sub btnBinding_Click()
     Dim currentRow As Integer
-    currentRow = gridBill.Row
+    currentRow = gridBill.row
     If currentRow = 0 Then
         MsgBox "请选择数据行!"
         Exit Sub
@@ -262,7 +262,7 @@ Private Sub btnQuery_Click()
         Exit Sub
     End If
     For i = 1 To dctBillType.Count
-        If bindingBillTypeName = dctBillType.Value(dctBillType.Name(i)) Then
+        If bindingBillTypeName = dctBillType.value(dctBillType.Name(i)) Then
             bindingBillTypeNum = dctBillType.Name(i)
             Exit For
         End If
@@ -273,7 +273,7 @@ Private Sub btnQuery_Click()
     gridRowCount = gridBill.Rows
     For i = 1 To gridRowCount - 1
         If gridBill.Rows = 2 Then
-            gridBill.Row = 1
+            gridBill.row = 1
             For j = 1 To gridBill.Cols - 1
                 gridBill.Col = j
                 gridBill.Text = ""
@@ -326,7 +326,7 @@ Private Sub btnQuery_Click()
         
         sql = "select a.FID,a.FBillNo 单号, b.FEntryID,b.FIndex 分录行  from T_ATS_VehiclePurOrder a " & _
               "left join T_ATS_VehiclePurOrderEntry b on a.FID=b.FID and b.FID <>0 " & _
-              "where a.FMultiCheckStatus='16' and a.FSupplierID=" & supplierId
+              "where a.FMultiCheckStatus='16' and (b.FCancelStatus='0' or b.FCancelStatus='2') and a.FSupplierID=" & supplierId
         
     ElseIf bindingBillTypeNum = "P02" Then '精品配件采购订单
         If (itemClassId <> 8) Then
@@ -355,7 +355,7 @@ Private Sub btnQuery_Click()
     Next i
     gridBill.ColWidth(0) = 500
     For i = 1 To gridBill.Cols - 1
-        gridBill.Row = 0
+        gridBill.row = 0
         gridBill.Col = i
         gridBill.ColWidth(i) = 1300
         If InStr(gridBill.Text, "ID") > 0 Then
