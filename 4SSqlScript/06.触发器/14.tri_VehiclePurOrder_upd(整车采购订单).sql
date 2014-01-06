@@ -85,13 +85,13 @@ begin
 
 			----更新月需求计划的采购数量
 			update a
-			set FPuredQty = (select sum(fqty) from T_ATS_VehiclePurOrderEntry aa
+			set FPuredQty = isnull((select sum(fqty) from T_ATS_VehiclePurOrderEntry aa
 							inner join T_ATS_VehiclePurOrder bb on aa.FID=bb.FID
 							where bb.FMultiCheckStatus='16' and aa.FSeriesID=a.FSeriesID and aa.FModelID=a.FModelID
 							and aa.FColorID=a.FColorID and aa.FInteriorID=a.FInteriorID and aa.FOptional=a.FOptional
 							and convert(varchar(7),bb.FDate,120)=convert(varchar(7),a.FPurMonth ,120)
 							and bb.FSupplierID=b.FSupplierID
-							)
+							),0)
 			from T_ATS_VehiclePurForecastEntry a
 			inner join T_ATS_VehiclePurForecast b on a.FID=b.FID
 			where b.FMultiCheckStatus='16'

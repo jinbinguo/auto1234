@@ -19,6 +19,8 @@ Private dctTitle As KFO.Dictionary
 Private dctTitleInvert As KFO.Dictionary
 Private dctContent As KFO.Dictionary
 Private isCheckError As Boolean
+Private dctMappingSplit As KFO.Dictionary
+Private dctMappingMustInput As KFO.Dictionary
 
 Public Sub setBillInterface(ByVal billInterface As Object, ByVal ui As Object)
     Set m_BillInterface = billInterface
@@ -45,6 +47,17 @@ Private Sub getMappingCfg()
     End If
     dctMappingSeq.RemoveAll
     
+    If dctMappingSplit Is Nothing Then
+        Set dctMappingSplit = New KFO.Dictionary
+    End If
+    dctMappingSplit.RemoveAll
+    
+     If dctMappingMustInput Is Nothing Then
+        Set dctMappingMustInput = New KFO.Dictionary
+    End If
+    dctMappingMustInput.RemoveAll
+    
+        
     sql = "select FExcelColName,FMustInput,FK3ColName,FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx from T_ATS_ImportEntryMapping " & _
         " where FImportBillType='" & billType & "' Order by FSeq"
     
@@ -65,8 +78,33 @@ Private Sub getMappingCfg()
         dctRow("FK3ColSrcWhereEx") = rs!FK3ColSrcWhereEx
         Set dctMapping(rs!FExcelColName) = dctRow
         dctMappingSeq(seqIndex) = rs!FK3ColKey
+        
+        If ((rs!FK3ColType = "int") Or (rs!FK3ColType = "Decimal")) Then
+            dctMappingSplit(rs!FK3ColKey) = rs!FK3ColKey
+        End If
+        
+          If rs!FMustInput Then
+           Dim titleName1 As String
+           Dim titleName2 As String
+           titleName1 = rs!FExcelColName
+            
+           Dim isCombination As Long
+           isCombination = InStr(rs!FExcelColName, "|+|")
+           If isCombination > 0 Then
+               titleName1 = Left(rs!FExcelColName, isCombination - 1)
+               titleName2 = Right(rs!FExcelColName, Len(rs!FExcelColName) - isCombination - 2)
+               dctMappingMustInput(titleName1) = titleName1
+               dctMappingMustInput(titleName2) = titleName2
+                
+           Else
+               dctMappingMustInput(titleName1) = titleName1
+           End If
+    
+        End If
+        
         rs.MoveNext
         seqIndex = seqIndex + 1
+        
     Wend
 
 End Sub
@@ -143,7 +181,7 @@ Private Sub parseContent(ByVal sheet As Excel.Worksheet, ByVal dataBeginRow As L
     resetProgress colMappingCount * (rowCount - dataBeginRow)
     For mappingIndex = 1 To colMappingCount '按映射表头遍历
         Dim mapping As KFO.Dictionary
-        Set mapping = dctMapping.value(dctMapping.Name(mappingIndex))
+        Set mapping = dctMapping.Value(dctMapping.Name(mappingIndex))
         Dim excelColName As String
         Dim mustInput As Boolean
         Dim k3ColName As String
@@ -181,6 +219,9 @@ Private Sub parseContent(ByVal sheet As Excel.Worksheet, ByVal dataBeginRow As L
         For rowIndex = dataBeginRow To rowCount - 1
 Continue:
             addProgress
+            If colIndex1 = -1 Then
+                Exit For
+            End If
             
             Dim dctRow As KFO.Dictionary
             Set dctRow = IIf(IsEmpty(dctContent.GetValue(rowIndex - dataBeginRow + 1)), Nothing, dctContent.GetValue(rowIndex - dataBeginRow + 1))
@@ -266,12 +307,12 @@ Continue:
     addMsg "解析内容完成..."
 End Sub
 
-Private Sub addError(ByVal rowIndex As Long, ByVal colIndex1 As Long, ByVal colIndex2 As Long, ByVal value As String, ByVal errMsg As String)
+Private Sub addError(ByVal rowIndex As Long, ByVal colIndex1 As Long, ByVal colIndex2 As Long, ByVal Value As String, ByVal errMsg As String)
     Dim msg As String
     If colIndex2 > 0 Then
-         msg = "第" & CStr(rowIndex) & "行,组合[" & dctTitleInvert(colIndex1) & ";" & dctTitleInvert(colIndex2) & "]列：" & value & errMsg
+         msg = "第" & CStr(rowIndex) & "行,组合[" & dctTitleInvert(colIndex1) & ";" & dctTitleInvert(colIndex2) & "]列：" & Value & errMsg
     Else
-        msg = "第" & CStr(rowIndex) & "行,[" & dctTitleInvert(colIndex1) & "]列：" & value & errMsg
+        msg = "第" & CStr(rowIndex) & "行,[" & dctTitleInvert(colIndex1) & "]列：" & Value & errMsg
     End If
     isCheckError = True
     addMsg msg
@@ -279,15 +320,18 @@ End Sub
 
 Private Function getTitleIndex(ByVal titleName As String) As Long
     Dim titleIndex As Long
-    titleIndex = Val(dctTitle(titleName))
+    titleIndex = Val(dctTitle.GetValue(titleName))
+
     If titleIndex = 0 Then
-        addMsg titleName & "]不存在"
-        isCheckError = True
-        Err.Raise 1000, "getTitleIndex", "列[" & titleName & "]不存在"
+        If dctMappingMustInput.GetValue(titleName) <> "" Then
+            addMsg "列[" & titleName & "]不存在"
+            isCheckError = True
+            Err.Raise 1000, "getTitleIndex", "列[" & titleName & "]不存在"
+        Else
+            titleIndex = -1
+        End If
     End If
     getTitleIndex = titleIndex
-    
-
 End Function
 
 
@@ -374,12 +418,21 @@ Public Sub runImport()
             For colIndex = 1 To dctMappingSeq.Count
                  Dim dctCol As KFO.Dictionary
                  
-                 Set dctCol = dctRow.value(dctMappingSeq(colIndex))
-                 If dctCol("FKey") = "FQty" Then
-                    m_BillInterface.SetFieldValue dctCol("FKey"), 1, rowRealIndex
-                 Else
+                 
+                 Set dctCol = dctRow.Value(dctMappingSeq(colIndex))
+                 
+                 If IsEmpty(dctMappingSplit.GetValue(dctCol("FKey"))) Then
                     m_BillInterface.SetFieldValue dctCol("FKey"), dctCol("FValue"), rowRealIndex
+                 Else
+                    m_BillInterface.SetFieldValue dctCol("FKey"), dctCol("FValue") / qty, rowRealIndex
                  End If
+'                 If dctCol("FKey") = "FQty" Then
+'                    m_BillInterface.SetFieldValue dctCol("FKey"), 1, rowRealIndex
+'                 Else
+'                    m_BillInterface.SetFieldValue dctCol("FKey"), dctCol("FValue"), rowRealIndex
+'                 End If
+                 
+                 
                  Dim dct As KFO.Dictionary
                  Dim dctFld As KFO.Dictionary
                 
@@ -415,14 +468,14 @@ End Function
 Private Sub resetProgress(ByVal max As Long)
     frmImportDlg.ProgressBar1.Min = 0
     frmImportDlg.ProgressBar1.max = max
-    frmImportDlg.ProgressBar1.value = 0
+    frmImportDlg.ProgressBar1.Value = 0
 End Sub
 
 Private Sub addProgress()
-    If frmImportDlg.ProgressBar1.value = frmImportDlg.ProgressBar1.max Then
+    If frmImportDlg.ProgressBar1.Value = frmImportDlg.ProgressBar1.max Then
         Exit Sub
     End If
-    frmImportDlg.ProgressBar1.value = frmImportDlg.ProgressBar1.value + 1
+    frmImportDlg.ProgressBar1.Value = frmImportDlg.ProgressBar1.Value + 1
 End Sub
 
 Private Sub addMsg(msg As String)

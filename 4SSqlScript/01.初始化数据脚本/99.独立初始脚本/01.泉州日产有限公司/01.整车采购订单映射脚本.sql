@@ -51,6 +51,20 @@ insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK
 values (@importBillType,'下单数量',1,'数量',
 	'FQty','int','','','',9)
 
+insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
+	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,FSeq)
+values (@importBillType,'下单日期',0,'交货日期',
+	'FDate1','String','','','',10)
+
+insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
+	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,FSeq)
+values (@importBillType,'折扣价',0,'折扣价',
+	'FAmount4','Decimal','','','',11)
+
+insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
+	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,FSeq)
+values (@importBillType,'开票合计',0,'开票价',
+	'FAmount5','Decimal','','','',12)
 
 
 

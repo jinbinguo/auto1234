@@ -29,14 +29,14 @@ insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK
 	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,
 	FSeq)
 values (@importBillType,'车身颜色',1,'颜色',
-	'FBase6','F7','V_ATS_Color','FName','FSeriesID=(select FID from T_ATS_Series where FName={车系})',
+	'FBase4','F7','V_ATS_Color','FName','FSeriesID=(select FID from T_ATS_Series where FName={车系})',
 	4)
 
 insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
 	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,
 	FSeq)
 values (@importBillType,'内饰',1,'内饰',
-	'FBase5','F7','V_ATS_Interior','FName','FSeriesID=(select FID from T_ATS_Series where FName={车系})',
+	'FBase3','F7','V_ATS_Interior','FName','FSeriesID=(select FID from T_ATS_Series where FName={车系})',
 	5)
 
 insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
