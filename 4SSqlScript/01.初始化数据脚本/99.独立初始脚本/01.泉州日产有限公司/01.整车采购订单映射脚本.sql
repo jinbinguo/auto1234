@@ -53,7 +53,7 @@ values (@importBillType,'下单数量',1,'数量',
 
 insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,
 	FK3ColKey,FK3ColType,FK3ColSrcTable,Fk3ColSrcFieldName,FK3ColSrcWhereEx,FSeq)
-values (@importBillType,'下单日期',0,'交货日期',
+values (@importBillType,'预提车日',0,'交货日期',
 	'FDate1','String','','','',10)
 
 insert into T_ATS_ImportEntryMapping(FImportBillType,FExcelColName,FMustInput,FK3ColName,

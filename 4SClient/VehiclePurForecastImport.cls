@@ -170,7 +170,7 @@ Private Sub parseContent(ByVal sheet As Excel.Worksheet, ByVal dataBeginRow As L
     resetProgress colMappingCount * (rowCount - dataBeginRow)
     For mappingIndex = 1 To colMappingCount '按映射表头遍历
         Dim mapping As KFO.Dictionary
-        Set mapping = dctMapping.Value(dctMapping.Name(mappingIndex))
+        Set mapping = dctMapping.value(dctMapping.Name(mappingIndex))
         Dim excelColName As String
         Dim mustInput As Boolean
         Dim k3ColName As String
@@ -297,12 +297,12 @@ Continue:
     addMsg "解析内容完成..."
 End Sub
 
-Private Sub addError(ByVal rowIndex As Long, ByVal colIndex1 As Long, ByVal colIndex2 As Long, ByVal Value As String, ByVal errMsg As String)
+Private Sub addError(ByVal rowIndex As Long, ByVal colIndex1 As Long, ByVal colIndex2 As Long, ByVal value As String, ByVal errMsg As String)
     Dim msg As String
     If colIndex2 > 0 Then
-         msg = "第" & CStr(rowIndex) & "行,组合[" & dctTitleInvert(colIndex1) & ";" & dctTitleInvert(colIndex2) & "]列：" & Value & errMsg
+         msg = "第" & CStr(rowIndex) & "行,组合[" & dctTitleInvert(colIndex1) & ";" & dctTitleInvert(colIndex2) & "]列：" & value & errMsg
     Else
-        msg = "第" & CStr(rowIndex) & "行,[" & dctTitleInvert(colIndex1) & "]列：" & Value & errMsg
+        msg = "第" & CStr(rowIndex) & "行,[" & dctTitleInvert(colIndex1) & "]列：" & value & errMsg
     End If
     isCheckError = True
     addMsg msg
@@ -349,11 +349,11 @@ Public Sub runImport()
     For rowIndex = 1 To rowCount
         Dim dctRow As KFO.Dictionary
         Set dctRow = dctContent(rowIndex)
-        m_BillInterface.InsertNewRowAndFill 2, m_BillInterface.BillEntrys(1).GridMaxDataRowNum + 1, nil
-        
+        m_BillInterface.InsertNewRowAndFill 2, m_BillInterface.BillEntrys(1).GridMaxDataRowNum + 1, "FDate1", "2011-1-1"
+    
         For colIndex = 1 To dctMappingSeq.Count
             Dim dctCol As KFO.Dictionary
-            Set dctCol = dctRow.Value(dctMappingSeq(colIndex))
+            Set dctCol = dctRow.value(dctMappingSeq(colIndex))
             m_BillInterface.SetFieldValue dctCol("FKey"), dctCol("FValue"), rowIndex
             
             Dim dct As KFO.Dictionary
@@ -399,14 +399,14 @@ End Function
 Private Sub resetProgress(ByVal max As Long)
     frmImportDlg.ProgressBar1.Min = 0
     frmImportDlg.ProgressBar1.max = max
-    frmImportDlg.ProgressBar1.Value = 0
+    frmImportDlg.ProgressBar1.value = 0
 End Sub
 
 Private Sub addProgress()
-    If frmImportDlg.ProgressBar1.Value = frmImportDlg.ProgressBar1.max Then
+    If frmImportDlg.ProgressBar1.value = frmImportDlg.ProgressBar1.max Then
         Exit Sub
     End If
-    frmImportDlg.ProgressBar1.Value = frmImportDlg.ProgressBar1.Value + 1
+    frmImportDlg.ProgressBar1.value = frmImportDlg.ProgressBar1.value + 1
 End Sub
 
 Private Sub addMsg(msg As String)

@@ -87,7 +87,7 @@ Dim m_BillInterface As BillEvent
 Dim dctBillType As KFO.Dictionary
 Dim bindingBillTypeNum As String
 
-Public Function ShowForm(ByVal owner, billInterface As BillEvent) As String
+Public Function showForm(ByVal owner, billInterface As BillEvent) As String
 
     Set m_BillInterface = billInterface
     
@@ -123,7 +123,7 @@ Private Sub btnBinding_Click()
     Dim currentRow As Integer
     Dim sql As String
     Dim rs As ADODB.Recordset
-    currentRow = gridBill.Row
+    currentRow = gridBill.row
     
     If currentRow = 0 Then
         MsgBox "请选择数据行!"
@@ -241,7 +241,7 @@ Private Sub btnQuery_Click()
     gridRowCount = gridBill.Rows
     For i = 1 To gridRowCount - 1
         If gridBill.Rows = 2 Then
-            gridBill.Row = 1
+            gridBill.row = 1
             For j = 1 To gridBill.Cols - 1
                 gridBill.Col = j
                 gridBill.Text = ""
@@ -301,7 +301,7 @@ Private Sub btnQuery_Click()
     Next i
     gridBill.ColWidth(0) = 500
     For i = 1 To gridBill.Cols - 1
-        gridBill.Row = 0
+        gridBill.row = 0
         gridBill.Col = i
         gridBill.ColWidth(i) = 1300
         If InStr(gridBill.Text, "ID") > 0 Then

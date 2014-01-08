@@ -109,7 +109,7 @@ End Sub
 
 
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     Dim rs As ADODB.Recordset
     Dim dctARAmount As KFO.Dictionary
     
@@ -118,23 +118,32 @@ Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As
     If dct("FKey") = "FBase1" Then '车辆
         Dim vehicleId As Integer
         vehicleId = Val(dctFld("FFLD"))
-        loadVehicleInfo vehicleId, Row
+        loadVehicleInfo vehicleId, row
     ElseIf dct("FKey") = "FBase2" Then '代办项目
         Set rs = m_BillInterface.K3Lib.GetData("select isnull(FStandardAmount,0) FStandardAmount from T_ATS_AgentItem where FId=" & Val(dctFld("FFLD")))
         If Not rs.EOF Then
-            m_BillInterface.SetFieldValue "FAmount1", rs!FStandardAmount, Row '价税合计
+            m_BillInterface.SetFieldValue "FAmount1", rs!FStandardAmount, row '价税合计
 
-            m_BillInterface.SetFieldValue "FAmount3", rs!FStandardAmount, Row '含税应收金额
+            m_BillInterface.SetFieldValue "FAmount3", rs!FStandardAmount, row '含税应收金额
 
-            m_BillInterface.SetFieldValue "FAmount4", rs!FStandardAmount / (1 + 17 / 100#), Row '不含税应收金额
-            m_BillInterface.SetFieldValue "FAmount5", rs!FStandardAmount - rs!FStandardAmount / (1 + 17 / 100#), Row '税额
-            m_BillInterface.SetFieldValue "FAmount9", 0, Row '随车赠送金额
+            m_BillInterface.SetFieldValue "FAmount4", rs!FStandardAmount / (1 + 17 / 100#), row '不含税应收金额
+            m_BillInterface.SetFieldValue "FAmount5", rs!FStandardAmount - rs!FStandardAmount / (1 + 17 / 100#), row '税额
+            m_BillInterface.SetFieldValue "FAmount9", 0, row '随车赠送金额
             m_BillInterface.SetFieldValue "FAmount8", rs!FStandardAmount '总应收金额
             
             m_BillInterface.SetFieldValue "FAmount", m_BillInterface.Sum(dctARAmount)
             
             ' 带出金额并计算出其他金额字段
         End If
+    ElseIf dct("FKey") = "FDate2" Then '起保日期
+       Dim effectDate As Date
+       Dim strEffectDate As String
+       strEffectDate = dctFld("FFLD")
+       If strEffectDate <> "" Then
+            m_BillInterface.SetFieldValue "FDate3", DateAdd("yyyy", 1, Format(strEffectDate, "yyyy-mm-dd")) '终保日期
+       End If
+       
+    
     End If
 
 End Sub

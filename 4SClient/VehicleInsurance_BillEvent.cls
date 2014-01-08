@@ -80,7 +80,7 @@ Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
     Dim classId_src As Long
     Dim billNo_src As String
     Dim vehicleId As Long
-    Dim Row As Long
+    Dim row As Long
     Dim insuCompanyId As Long
     Dim insuType As String '办理类型
     Dim insuProductType As String '险种类别
@@ -139,20 +139,20 @@ Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
     End If
     
     
-    For Row = 1 To m_BillInterface.BillEntrys(1).GridMaxDataRowNum
-        insuProductType = m_BillInterface.GetFieldValue("FBaseProperty4", Row) '险种类别
+    For row = 1 To m_BillInterface.BillEntrys(1).GridMaxDataRowNum
+        insuProductType = m_BillInterface.GetFieldValue("FBaseProperty4", row) '险种类别
         If insuProductType = "1" Then '1=交强险
-            forcedAmount = forcedAmount + m_BillInterface.GetFieldValue("FAmount7", Row) '保额
-            forcedSaleAmount = forcedSaleAmount + m_BillInterface.GetFieldValue("FAmount8", Row) '保费
+            forcedAmount = forcedAmount + m_BillInterface.GetFieldValue("FAmount7", row) '保额
+            forcedSaleAmount = forcedSaleAmount + m_BillInterface.GetFieldValue("FAmount8", row) '保费
             
         ElseIf insuProductType = "2" Then '2=商业险
-            businessAmount = businessAmount + m_BillInterface.GetFieldValue("FAmount7", Row) '保额
-            businessSaleAmount = businessSaleAmount + m_BillInterface.GetFieldValue("FAmount8", Row) '保费
+            businessAmount = businessAmount + m_BillInterface.GetFieldValue("FAmount7", row) '保额
+            businessSaleAmount = businessSaleAmount + m_BillInterface.GetFieldValue("FAmount8", row) '保费
         ElseIf insuProductType = "3" Then '3=车船税
-            vehVesTaxAmount = vehVesTaxAmount + m_BillInterface.GetFieldValue("FAmount8", Row)
+            vehVesTaxAmount = vehVesTaxAmount + m_BillInterface.GetFieldValue("FAmount8", row)
         End If
     
-    Next Row
+    Next row
     
     m_BillInterface.SetFieldValue "FAmount", vehVesTaxAmount '车船税
     m_BillInterface.SetFieldValue "FAmount1", forcedAmount '交强险保单金额
@@ -229,9 +229,17 @@ Private Sub setVehicleInfo(rs As ADODB.Recordset, lRow As Long)
 End Sub
 
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     If dct("FKey") = "FAmount1" Or dct("FKey") = "FAmount3" Or dct("FKey") = "FBase2" Or dct("FKey") = "FComboBox" Then '交强险保单金额\商业险保单金额\保险公司\保险类型
         setReturnAmount
+    ElseIf dct("FKey") = "FDate1" Then '起保日期
+       Dim effectDate As Date
+       Dim strEffectDate As String
+       strEffectDate = dctFld("FFLD")
+       If strEffectDate <> "" Then
+            m_BillInterface.SetFieldValue "FDate2", DateAdd("yyyy", 1, Format(strEffectDate, "yyyy-mm-dd")) '终保日期
+       End If
+       
     End If
     
 End Sub

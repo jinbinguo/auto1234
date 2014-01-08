@@ -60,12 +60,22 @@ begin
 */	
 		if (@isAudit = 1)--审核
 		begin	
+			--更新车辆保险信息
 			update t_ats_vehicle
 			set FInsuCompanyID=@insuCompanyID,
 				FForcedNum =@forcedNum,
 				FBusinessNum=@businessNum,
 				FInsuInvalidDate=@insuInvalidDate
 			where FID=@vehicleId
+
+			--更新代办服务单，保险信息
+			update a
+			set FInsuCompanyID=b.FInsuCompanyID,
+				FInsuranEffectDate = b.FEffectDate,
+				FInsuranInvalidDate=b.FInvalidDate
+			from T_ATS_AgentService a
+			inner join inserted b on b.FID_SRC=a.FID 
+			where a.FID=b.FID_SRC and b.FClassID_SRC=200000045
 		end;
 		if (@isUnAudit = 1) --反审核
 		begin

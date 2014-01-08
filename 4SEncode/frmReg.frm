@@ -53,7 +53,7 @@ Begin VB.Form regForm
       Height          =   390
       Left            =   1680
       TabIndex        =   2
-      Text            =   "汽车行业演示帐套"
+      Text            =   "泉州日产汽车有限公司"
       Top             =   600
       Width           =   3380
    End
@@ -200,3 +200,7 @@ errDate:
     MsgBox "日期格式不正确", vbExclamation, "金蝶提示"
 End Sub
 
+Private Sub Form_Load()
+    txtBeginDate.Text = Format(Date, "YYYY-MM-DD")
+    txtEndDate.Text = Format(DateAdd("m", 6, Date), "YYYY-MM-DD")
+End Sub

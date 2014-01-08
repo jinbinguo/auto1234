@@ -58,7 +58,7 @@ Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As
         d = Format(dctFld("FFLD"), "yyyy-mm-dd")
         Dim dday As Integer
         dday = Day(d)
-        m_BillInterface.SetFieldValue dct("FKey"), DateAdd("d", 1 - dday, d)
+        m_BillInterface.SetFieldValue dct("FKey"), DateAdd("d", 1 - dday, d), row
     ElseIf (dct("FKey") = "") Then '∆Ù∂Ø∂‡º∂…Û∫À
     
     
@@ -161,13 +161,13 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
         Dim sql As String
         Dim rs As ADODB.Recordset
         sql = "update a " & _
-           " set FPuredQty = (select sum(fqty) from T_ATS_VehiclePurOrderEntry aa" & _
+           " set FPuredQty = isnull((select sum(fqty) from T_ATS_VehiclePurOrderEntry aa" & _
            "                 inner join T_ATS_VehiclePurOrder bb on aa.FID=bb.FID" & _
            "                 where bb.FMultiCheckStatus='16' and aa.FSeriesID=a.FSeriesID and aa.FModelID=a.FModelID" & _
            "                 and aa.FColorID=a.FColorID and aa.FInteriorID=a.FInteriorID and aa.FOptional=a.FOptional" & _
            "                and convert(varchar(7),bb.FDate,120)=convert(varchar(7),a.FPurMonth ,120)" & _
            "                 and bb.FSupplierID=b.FSupplierID" & _
-           "                 )" & _
+           "                 ),0)" & _
            " from T_ATS_VehiclePurForecastEntry a" & _
            " inner join T_ATS_VehiclePurForecast b on a.FID=b.FID" & _
            " where b.FMultiCheckStatus='16'"
