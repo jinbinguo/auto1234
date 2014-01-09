@@ -31,7 +31,7 @@ BEGIN
 		set @filterSQL = @filterSQL + ' and f.FName like ''%' + @stockName + '%'''
 
 	set @filterInitDate = ' and a1.FDate<''' + convert(varchar(10),@beginDate,120) + ''''
-	set @filterPeriodDate = 'and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''' and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
+	set @filterPeriodDate = ' and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''' and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
 
 
 	create table #tmpTable(

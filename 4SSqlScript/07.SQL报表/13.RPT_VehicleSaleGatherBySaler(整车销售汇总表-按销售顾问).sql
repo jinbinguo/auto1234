@@ -19,9 +19,9 @@ BEGIN
 	if @empName <> ''
 		set @filterSQL = @filterSQL + ' and f.FName like ''%' + @empName + '%'''
 	if @beginDate <> ''
-		set @filterSQL = @filterSQL + 'and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''''
+		set @filterSQL = @filterSQL + ' and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''''
 	if @endDate <> ''
-			set @filterSQL = @filterSQL + 'and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
+		set @filterSQL = @filterSQL + ' and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
 
 	create table #tmpTable(
 		FSaler varchar(100),

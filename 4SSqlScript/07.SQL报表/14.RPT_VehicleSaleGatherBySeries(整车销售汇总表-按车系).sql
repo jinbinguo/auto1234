@@ -24,9 +24,9 @@ BEGIN
 	if @seriesName <> ''
 		set @filterSQL = @filterSQL + ' and d.FName like ''%' + @seriesName + '%'''
 	if @beginDate <> ''
-		set @filterSQL = @filterSQL + 'and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''''
+		set @filterSQL = @filterSQL + ' and a1.FDate>='''+ convert(varchar(10),@beginDate,120) + ''''
 	if @endDate <> ''
-			set @filterSQL = @filterSQL + 'and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
+		set @filterSQL = @filterSQL + ' and a1.FDate<=''' + convert(varchar(10),@endDate,120) + ''''
 
 	create table #tmpTable(
 		FBrandName varchar(100),

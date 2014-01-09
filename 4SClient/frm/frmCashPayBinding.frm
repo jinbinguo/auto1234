@@ -368,6 +368,10 @@ Private Sub btnQuery_Click()
     
 End Sub
 
+Private Sub Form_Load()
+
+End Sub
+
 Private Sub gridBill_Click()
 '
 End Sub

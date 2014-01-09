@@ -63,7 +63,7 @@ begin
 			begin
 			--更新整车销售订单的精品应收金额，精品加装金额累计
 				update b
-				set FARGitwareAmount=(
+				set FARGitwareAmount=(  --精品应收金额
 					select isnull(sum(amount),0) from (
 					select sum(b.FARAmount) amount from T_ATS_DecorationOrderSource a 
 					inner join T_ATS_DecorationOrderEntry b on b.fid=a.fid
@@ -74,9 +74,11 @@ begin
 					select sum(FManHourFee) amount from T_ATS_DecorateWOItem aa
 					inner join T_ATS_DecorateWO bb on aa.FID=bb.FID
 					where bb.FVehicleSEOrderID=@saleOrderId and bb.FVehicleSEOrderEntryID = @saleOrderEntryId and bb.FMultiCheckStatus='16')
-					abc)
+					abc),
+					FGiftwareDiscount=isnull((select sum(FDisByVehicleAmount) from T_ATS_DecorationOrderEntry where FID=@interId),0) --实际随车赠送精品金额
 				from T_ATS_VehicleSaleOrderEntry b
 				where b.fid=@saleOrderId and b.FEntryID=@saleOrderEntryId;
+
 				update a
 				set FTotalARAmount = FARVehicleAmount + FARGitwareAmount + FARAgentAmount - FSecondHandAmount
 				from T_ATS_VehicleSaleOrderEntry a

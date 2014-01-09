@@ -99,12 +99,12 @@ Public Function showForm(ByVal owner, billInterface As BillEvent) As String
     
     
     For i = 1 To dctBillType.Count
-        cmbBillType.AddItem dctBillType.Value(dctBillType.Name(i)), i - 1
+        cmbBillType.AddItem dctBillType.value(dctBillType.Name(i)), i - 1
     Next i
     
     bindingBillTypeNum = m_BillInterface.GetFieldValue("FComboBox") 'นุมช
     If dctBillType.Lookup(bindingBillTypeNum) Then
-        cmbBillType.Text = dctBillType.Value(bindingBillTypeNum)
+        cmbBillType.Text = dctBillType.value(bindingBillTypeNum)
         btnQuery_Click
     End If
      
@@ -229,7 +229,7 @@ Private Sub btnQuery_Click()
         Exit Sub
     End If
     For i = 1 To dctBillType.Count
-        If bindingBillTypeName = dctBillType.Value(dctBillType.Name(i)) Then
+        If bindingBillTypeName = dctBillType.value(dctBillType.Name(i)) Then
             bindingBillTypeNum = dctBillType.Name(i)
             Exit For
         End If
@@ -314,3 +314,6 @@ Private Sub btnQuery_Click()
     
 End Sub
 
+Private Sub Form_Load()
+
+End Sub
