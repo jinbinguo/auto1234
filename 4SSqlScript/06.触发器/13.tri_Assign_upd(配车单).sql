@@ -25,6 +25,8 @@ begin
 	--declare @vehicleNo varchar(80); --车辆编码
 	declare @stockId int; --仓库内码
 
+	declare @rsCount int; --数据查询记录数
+
 	declare cur cursor local for select FID,FMultiCheckStatus,FVehicleID,FOptional from inserted;
 	open cur;
 	fetch cur into @interId,@newStatus,@vehicleId,@strOptional
@@ -74,12 +76,21 @@ begin
 				where fid= @vehicleId;
 
 				--更新代办服务单车信息
-				 update T_ATS_AgentService  
-				 set FVehicleID=@vehicleId 
-				 where FID=(select FID from T_ATS_AgentServiceSource 
+				
+				select @rsCount = count(FID) from T_ATS_AgentServiceSource where FID_SRC=@sourceInterId and FEntryID_SRC= @sourceEntryId and FClassID_SRC=200000028;
+				if (@rsCount > 1)
+					raiserror('整车销售订单下推了多张的代办服务单，不允许配车，请先删除多余代办服务单或合并',16,1)
+
+				update T_ATS_AgentService  
+				set FVehicleID=@vehicleId 
+				where FID=(select FID from T_ATS_AgentServiceSource 
 						where FID_SRC=@sourceInterId and FEntryID_SRC= @sourceEntryId and FClassID_SRC=200000028)
 
 				--更新精品配件订单车辆信息
+				select @rsCount = count(FID) from T_ATS_DecorationOrderSource where FID_SRC=@sourceInterId and FEntryID_SRC=@sourceEntryId and FClassID_SRC=200000028
+				if (@rsCount > 1)
+					raiserror('整车销售订单下推了多张的精品配件订单，不允许配车，请先删除多余精品配件订单或合并',16,1)
+
 				update T_ATS_DecorationOrder
 				set FVehicleID = @vehicleId 
 				where fid = (select fid from T_ATS_DecorationOrderSource 
@@ -136,11 +147,18 @@ begin
 				  where a.FID=@sourceInterId and a.FEntryID=@sourceEntryId;
 
 				--清除代办服务单车辆信息
+				select @rsCount = count(FID) from T_ATS_AgentServiceSource where FID_SRC=@sourceInterId and FEntryID_SRC= @sourceEntryId and FClassID_SRC=200000028;
+				if (@rsCount > 1)
+					raiserror('整车销售订单下推了多张的代办服务单，不允许反配车，请先删除多余代办服务单或合并',16,1)
+
 				 update T_ATS_AgentService  
 				 set FVehicleID=0 
 				 where FID=(select FID from T_ATS_AgentServiceSource 
 						where FID_SRC=@sourceInterId and FEntryID_SRC= @sourceEntryId and FClassID_SRC=200000028)
 				--清除精品配件订单车辆信息
+				select @rsCount = count(FID) from T_ATS_DecorationOrderSource where FID_SRC=@sourceInterId and FEntryID_SRC=@sourceEntryId and FClassID_SRC=200000028
+				if (@rsCount > 1)
+					raiserror('整车销售订单下推了多张的精品配件订单，不允许反配车，请先删除多余精品配件订单或合并',16,1)
 				update T_ATS_DecorationOrder
 				set FVehicleID = 0 
 				where fid = (select fid from T_ATS_DecorationOrderSource 

@@ -57,6 +57,7 @@ Class=VehiclePurForecast_BillEvent; VehiclePurForecast_BillEvent.cls
 Class=VehiclePurForecastImport; VehiclePurForecastImport.cls
 Class=VehiclePurCheckImportUpd; VehiclePurCheckImportUpd.cls
 Class=VehiclePurCheckImport; VehiclePurCheckImport.cls
+Module=PublicUtils; ..\4SCommon\PublicUtils.bas
 Startup="(None)"
 HelpFile=""
 Title="Auto4S_Client"

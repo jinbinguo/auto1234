@@ -121,3 +121,27 @@ Private Sub setVehicleInfo(rs As ADODB.Recordset, lRow As Long)
         m_BillInterface.SetFieldValue "FBaseProperty4", rs!FCfgDesc, lRow
     End If
 End Sub
+
+Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
+    Dim rowIndex As Long
+    Dim isInstall As Boolean
+    Dim vehicleId As Long
+    
+    isInstall = False
+    vehicleId = Val(m_BillInterface.GetFieldValue("FBase2"))
+    If vehicleId = 0 Then
+        For rowIndex = 1 To m_BillInterface.BillEntrys(1).GridMaxDataRowNum
+            isInstall = m_BillInterface.GetFieldValue("FCheckBox1", rowIndex)
+            If isInstall Then
+                Exit For
+            End If
+        Next rowIndex
+        If isInstall Then
+            MsgBoxEx.showInfo "需安装订单，车辆不能为空！"
+            bCancel = True
+        End If
+    End If
+    
+    
+    
+End Sub

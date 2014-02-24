@@ -19,6 +19,7 @@ Module=ExcelUtils; ExcelUtils.bas
 Module=MsgBoxEx; MsgBoxEx.bas
 Form=frm\frmChoiceFile.frm
 Form=frm\frmImportDlg.frm
+Module=PublicUtils; PublicUtils.bas
 Startup="(None)"
 HelpFile=""
 Title="Auto4S_Common"

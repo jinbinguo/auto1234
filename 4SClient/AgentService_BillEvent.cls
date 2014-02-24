@@ -174,3 +174,36 @@ Private Sub setVehicleInfo(rs As ADODB.Recordset, lRow As Long)
     End If
 End Sub
 
+Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool, Cancel As Boolean)
+    If BOSTool.ToolName = "mnuAdjustAmount" Then
+        Dim dctTaxAmount As KFO.Dictionary
+        Dim dctDiscountRate As KFO.Dictionary
+        Dim dctDiscountAmount As KFO.Dictionary
+        Dim dctTaxRate As KFO.Dictionary
+        Dim dctDisByVehicleAmount As KFO.Dictionary
+        Dim dctAgentNote As KFO.Dictionary
+
+        Set dctTaxAmount = m_BillInterface.GetFieldInfoByKey("FAmount1", "", -1) '标准金额
+        Set dctDiscountRate = m_BillInterface.GetFieldInfoByKey("FDecimal", "", -1) '折扣率
+        Set dctDiscountAmount = m_BillInterface.GetFieldInfoByKey("FAmount2", "", -1) '折扣额
+        Set dctTaxRate = m_BillInterface.GetFieldInfoByKey("FDecimal1", "", -1) '税率
+        Set dctDisByVehicleAmount = m_BillInterface.GetFieldInfoByKey("FAmount9", "", -1) '随车赠送金额
+        Set dctAgentNote = m_BillInterface.GetFieldInfoByKey("FNote1", "", -1) '备注
+        
+        
+        m_BillInterface.BillCtl.BillStatus = Enu_BillStatusExt_New
+        m_BillInterface.MenuBar.BOSTools.Item("mnuFileSave").Enabled = True
+        m_BillInterface.MenuBar.BOSTools.Item("mnuFileSave").Visible = True
+        m_BillInterface.LockCell dctTaxAmount, -1, False
+        m_BillInterface.LockCell dctDiscountRate, -1, False
+        m_BillInterface.LockCell dctDiscountAmount, -1, False
+        m_BillInterface.LockCell dctTaxRate, -1, False
+        m_BillInterface.LockCell dctDisByVehicleAmount, -1, False
+        m_BillInterface.LockCell dctAgentNote, -1, False
+        
+        
+    End If
+    
+End Sub
+
+

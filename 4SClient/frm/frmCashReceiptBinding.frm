@@ -273,15 +273,17 @@ Private Sub btnQuery_Click()
         sql = "select a.FID,a.FBillNo 单号,0 FEntryID,0 FIndexID,b.FVIN 底盘号,c.FName 客户,d.FBillNo_SRC 整车销售订单 from T_ATS_DecorationOrder  a " & _
               "left join T_ATS_Vehicle b on b.FID=a.FVehicleID and b.FID <> 0 " & _
               "left join t_Organization c on c.FItemID =a.FCustomerID and c.FItemID<>0 " & _
-              "left join T_ATS_DecorationOrderSource d on d.FID=a.FID and d.FClassID_SRC=200000028 and d.FID<>0" & _
-              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId
+              "left join T_ATS_DecorationOrderSource d on d.FID=a.FID and d.FClassID_SRC=200000028 and d.FID<>0 " & _
+              "left join T_ATS_VehicleSaleOrderEntry e on e.FID=d.FID_SRC and e.FEntryID=d.FEntryID_SRC and d.FClassID_SRC=200000028 " & _
+              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " and (e.FModelId = " & modelId & " or b.FModelId=" & modelId & ")"
     
     ElseIf bindingBillTypeNum = "200000045" Then '代办服务
         sql = "select a.FID,a.FBillNo 单号,0 FEntryID,0 FIndexID,b.FVIN 底盘号,c.FName 客户, d.FBillNo_SRC 整车销售订单 from T_ATS_AgentService a " & _
               "left join T_ATS_Vehicle b on b.FID=a.FVehicleID and b.FID <> 0 " & _
               "left join t_Organization c on c.FItemID =a.FCustomerID and c.FItemID<>0 " & _
               "left join T_ATS_AgentServiceSource d on d.FID=a.FID and d.FClassID_SRC=200000028 and d.FID<>0 " & _
-              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " And b.FModelId = " & modelId & " and a.FCarOwner='" & carOwner & "'"
+              "left join T_ATS_VehicleSaleOrderEntry e on e.FID=d.FID_SRC and e.FEntryID=d.FEntryID_SRC and d.FClassID_SRC=200000028 " & _
+              "where a.FMultiCheckStatus='16' and a.FCustomerID = " & customerId & " and (e.FModelId = " & modelId & " or b.FModelId=" & modelId & ") and a.FCarOwner='" & carOwner & "'"
     Else
         MsgBox "请先选择有效的关联单类型", vbInformation, "金蝶提示"
         Exit Sub
@@ -299,21 +301,32 @@ Private Sub btnQuery_Click()
     For i = 1 To gridBill.Rows - 1
         gridBill.TextMatrix(i, 0) = i
     Next i
-    gridBill.ColWidth(0) = 500
-    For i = 1 To gridBill.Cols - 1
-        gridBill.row = 0
-        gridBill.Col = i
-        gridBill.ColWidth(i) = 1300
-        If InStr(gridBill.Text, "ID") > 0 Then
-            gridBill.ColWidth(i) = 0
-        End If
-
-    Next i
-    
+   autoGridColWidth gridBill
+ 
     
     
 End Sub
 
-Private Sub Form_Load()
-
+Private Sub autoGridColWidth(ByVal gridBill As MSHFlexGrid)
+    Dim i, j As Integer
+    Dim dblWidth As Double
+        With gridBill
+            For i = 0 To .Cols - 1
+                dblWidth = 0
+                If .ColWidth(i) <> 0 Then
+                    For j = 0 To .Rows - 1
+                        If PublicUtils.CharacterLen(.TextMatrix(j, i)) > dblWidth Then
+                            dblWidth = PublicUtils.CharacterLen(.TextMatrix(j, i))
+                        End If
+                    Next
+                    .ColWidth(i) = dblWidth * 120
+                End If
+                If InStr(.TextMatrix(0, i), "ID") > 0 Then
+                   gridBill.ColWidth(i) = 0
+                End If
+            Next
+        End With
+ 
 End Sub
+
+

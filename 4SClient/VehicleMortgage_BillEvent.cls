@@ -137,7 +137,7 @@ Private Sub setVehicleInfo(rs As ADODB.Recordset, lRow As Long)
     End If
 End Sub
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     If (dct("FKey") = "FAmount") Then '按揭金额
         setReturnAmount
     End If
@@ -169,6 +169,11 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     Dim dctReturnAmount As KFO.Dictionary '返利金额
     Dim dctMortgageBillNum As KFO.Dictionary '返利结算号码
     Dim dctMortgageInvoiceNum As KFO.Dictionary '按揭返利号码
+    Dim dctMortgageCompany As KFO.Dictionary '按揭公司
+    Dim dctMakerDiscount As KFO.Dictionary '厂家贴息
+    Dim dctCompDiscount As KFO.Dictionary '公司贴息
+    Dim dctDownPayment As KFO.Dictionary '首付金额
+    
     Dim multiCheckStatus As String
     multiCheckStatus = m_BillInterface.GetFieldValue("FMultiCheckStatus")
     
@@ -177,7 +182,10 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
     Set dctReturnAmount = m_BillInterface.GetFieldInfoByKey("FAmount1", "", -1)
     Set dctMortgageBillNum = m_BillInterface.GetFieldInfoByKey("FText2", "", -1)
     Set dctMortgageInvoiceNum = m_BillInterface.GetFieldInfoByKey("FText1", "", -1)
-    
+    Set dctMortgageCompany = m_BillInterface.GetFieldInfoByKey("FBase2", "", -1)
+    Set dctMakerDiscount = m_BillInterface.GetFieldInfoByKey("FAmount3", "", -1)
+    Set dctCompDiscount = m_BillInterface.GetFieldInfoByKey("FAmount4", "", -1)
+    Set dctDownPayment = m_BillInterface.GetFieldInfoByKey("FAmount7", "", -1)
     
     
     If BOSTool.ToolName = "mnuMortgageCheck" Then '核对
@@ -251,6 +259,18 @@ Private Sub m_BillInterface_MenuBarClick(ByVal BOSTool As K3ClassEvents.BOSTool,
             m_BillInterface.LockBillEntry 1
         
         End If
+    End If
+    
+    If BOSTool.ToolName = "mnuAdjust" Then
+        m_BillInterface.BillCtl.BillStatus = Enu_BillStatusExt_New
+        m_BillInterface.MenuBar.BOSTools.Item("mnuFileSave").Enabled = True
+        m_BillInterface.MenuBar.BOSTools.Item("mnuFileSave").Visible = True
+        m_BillInterface.LockCell dctMortgageCompany, -1, False
+        m_BillInterface.LockCell dctMakerDiscount, -1, False
+        m_BillInterface.LockCell dctCompDiscount, -1, False
+        m_BillInterface.LockCell dctDownPayment, -1, False
+        m_BillInterface.LockBillEntry 1
+         
     End If
     
 End Sub

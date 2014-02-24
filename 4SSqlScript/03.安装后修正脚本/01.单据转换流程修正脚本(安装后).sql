@@ -12,6 +12,18 @@ update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000047 and FDestClas
 --保险登记单转其他应收单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000047 and FDestClassTypeID=1000021;
 
+--采购增值税发票转采购增值税发票
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000004 and FDestClassTypeID=1000004;
+
+--采购增值税发票转付款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000004 and FDestClassTypeID=1000016;
+
+--采购增值税发票转付款申请单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000004 and FDestClassTypeID=1000040;
+
+--采购增值税发票转应付退款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000004 and FDestClassTypeID=1000017;
+
 --代办服务转按揭登记
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000045 and FDestClassTypeID=200000048;
 
@@ -39,8 +51,38 @@ update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000054 and FDestClas
 --精品配件销售订单转销售增值税发票
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000054 and FDestClassTypeID=1000002;
 
+--其他应付单转付款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000022 and FDestClassTypeID=1000016;
+
+--其他应付单转付款申请单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000022 and FDestClassTypeID=1000040;
+
+--其他应付单转其他应付单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000022 and FDestClassTypeID=1000022;
+
+--其他应付单转应付退款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000022 and FDestClassTypeID=1000017;
+
+--其他应收单转其他应收单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000021 and FDestClassTypeID=1000021;
+
+--其他应收单转收款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000021 and FDestClassTypeID=1000005;
+
+--其他应收单转应收退款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000021 and FDestClassTypeID=1000015;
+
 --上牌登记转其他应付单
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000046 and FDestClassTypeID=1000022;
+
+--销售增值税发票转收款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000002 and FDestClassTypeID=1000005;
+
+--销售增值税发票转销售增值税发票
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000002 and FDestClassTypeID=1000002;
+
+--销售增值税发票转应收退款单
+update ICClassLink set FIsUsed=2 where FSourClassTypeID =1000002 and FDestClassTypeID=1000015;
 
 --整车采购订单转采购增值税发票
 update ICClassLink set FIsUsed=2 where FSourClassTypeID =200000023 and FDestClassTypeID=1000004;

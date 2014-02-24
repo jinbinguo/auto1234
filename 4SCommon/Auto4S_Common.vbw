@@ -6,3 +6,4 @@ ExcelUtils = 26, 26, 768, 442, C
 MsgBoxEx = 52, 52, 806, 468, C
 frmChoiceFile = 156, 156, 898, 572, C, 130, 130, 872, 546, C
 frmImportDlg = 114, 18, 856, 434, C, 53, 94, 950, 487, C
+PublicUtils = 0, 0, 0, 0, C
