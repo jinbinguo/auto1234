@@ -20,12 +20,12 @@ begin
 	set @icclassTypeId = cast(substring(@mcStatusName,16,len(@mcStatusName)-15) as int);
 	--select @billName=FName_CHS from ICClassType where FID=@icclassTypeId;
 	truncate table #tmpTable;
-	set @sql = 'insert into #tmpTable(FMaxID,FBillID,FTemplateID)
-		select MAX(FID),FBillID,FTemplateID from ' + @mcStatusName + ' where FTemplateID<> 999999 group by FTemplateID,FBillID '
+	set @sql = 'insert into #tmpTable(FBillID,FTemplateID)
+		select FBillID,FTemplateID from ' + @mcStatusName + ' where FTemplateID<> 999999 group by FTemplateID,FBillID '
 	execute sp_executesql @sql
 	set @sql = 'insert into T_ATS_MCStatusTemp(FMCStatusName,FID,FBillID,FOldTemplateID,FNewTemplateID)
 				select ''' + @mcStatusName + ''',a.FID,a.FBillID,a.FTemplateID,999999 from ' + @mcStatusName + ' a
-					inner join #tmpTable b on a.FBillID=b.FBillID and a.FID=b.FMaxID and a.FTemplateID=b.FTemplateID
+					inner join #tmpTable b on a.FBillID=b.FBillID and a.FTemplateID=b.FTemplateID
 					where a.FNextLevelTagIndex<>1 ';
 	execute sp_executesql @sql
 	set @sql = 'update a

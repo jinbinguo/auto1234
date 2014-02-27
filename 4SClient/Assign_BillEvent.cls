@@ -76,16 +76,16 @@ Private Sub m_BillInterface_AfterSelBill(ByVal lSelBillType As Long)
         
 End Sub
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     Dim rs As ADODB.Recordset
     If dct("FKey") = "FBase1" Then '车辆
         Dim vehicleId As Integer
         vehicleId = Val(dctFld("FFLD"))
-        loadVehicleInfo vehicleId, Row
+        loadVehicleInfo vehicleId, row
     ElseIf dct("FKey") = "FBase2" Then '车型
         Dim modelId As Integer
         modelId = Val(dctFld("FFLD"))
-        loadModelInfo modelId, Row
+        loadModelInfo modelId, row
     End If
 
 End Sub
@@ -96,9 +96,10 @@ Private Sub loadVehicleInfo(vehicleId As Integer, lRow As Long)
     Dim rs As ADODB.Recordset
     Dim sql As String
     If (vehicleId > 0) Then
-        sql = "select a.FVIN,a.FEngineNum,a.FOptional,b.FNumber stockNum, b.FName stockName " & _
+        sql = "select a.FVIN,a.FEngineNum,a.FOptional,b.FNumber stockNum, b.FName stockName,c.FInteriorNumber " & _
               "from V_ATS_Vehicle a " & _
               "left join t_Stock b on b.FItemID=a.FStockID and b.FItemID<>0 " & _
+              "left join T_ATS_SeriesInterior c on c.FEntryID=a.FInteriorID and c.FID=a.FSeriesID " & _
               "where a.FID=" & CStr(vehicleId)
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         setVehicleInfo rs, lRow
@@ -115,6 +116,7 @@ Private Sub setVehicleInfo(rs As ADODB.Recordset, lRow As Long)
         m_BillInterface.SetFieldValue "FBaseProperty12", rs!FEngineNum, lRow '发动机号
         m_BillInterface.SetFieldValue "FText", rs!FOptional, lRow '选装
         m_BillInterface.SetFieldValue "FBase5", rs!stockNum, lRow '所属仓库
+        m_BillInterface.SetFieldValue "FBase4", rs!FInteriorNumber, lRow '内饰
     End If
 End Sub
 

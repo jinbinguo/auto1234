@@ -356,6 +356,10 @@ insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FTyp
 delete ICClassPackObject where FSrcClassTypeId=200000097
 insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000097,'1863DDD5-B677-B64F-B750-CC0DC640EAAE',0,1)
 
+--¶þ¼¶Íøµã
+delete ICClassPackObject where FSrcClassTypeId=200000098
+insert into ICClassPackObject(FPackID,FSrcClassTypeID,FGUID,FDstClassTypeID,FType) values (0,200000098,'8A175F05-8CCB-8D4D-BE56-6D4E57E755AD',0,1)
+
 
 
 if @@ERROR = 0 

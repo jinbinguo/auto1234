@@ -60,7 +60,8 @@ begin
 				  a.FAssignBillNo=c.FBillNo, 
 				  a.FVin=d.FVin, 
 				  a.FStockId=d.FStockID, 
-				  a.FOptional =c.FOptional
+				  a.FOptional =c.FOptional,
+				  a.FInteriorID=c.FInteriorID
 				from  T_ATS_VehicleSaleOrderEntry a
 				inner join T_ATS_AssignSource b on b.FClassID_SRC=200000028 and b.FID_SRC=a.FID and b.FEntryID_SRC=a.FEntryID and b.FID<>0
 				inner join t_ats_Assign c on c.FID=b.FID and c.FID<>0

@@ -113,12 +113,21 @@ End Sub
 
 
 
-Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal Row As Long, Cancel As Boolean)
+Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
+    If (m_BillInterface.GetFieldValue("FComboBox") = 1) And Val(m_BillInterface.GetFieldValue("FBase1")) = 0 Then '加装类型=销售加装，客户为空
+        MsgBoxEx.showInfo "销售加装，客户不允许为空"
+        bCancel = True
+    End If
+    
+    
+End Sub
+
+Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As KFO.IDictionary, ByVal Col As Long, ByVal row As Long, Cancel As Boolean)
     Dim itemId As Long
     Dim rs As ADODB.Recordset
     Dim sql As String
     If (dct("FKey") = "FDecimal") Then '工时费
-        itemId = Val(m_BillInterface.GetFieldValue("FBase3", Row)) '加工项目
+        itemId = Val(m_BillInterface.GetFieldValue("FBase3", row)) '加工项目
         sql = "select FManHourFee/FManHour manHourFee from T_ATS_DecorationItem where fid=" & itemId
         Set rs = m_BillInterface.K3Lib.GetData(sql)
         If Not rs.EOF Then
@@ -129,4 +138,8 @@ Private Sub m_BillInterface_Change(ByVal dct As KFO.IDictionary, ByVal dctFld As
         
         
     End If
+End Sub
+
+Private Sub m_BillInterface_Verify(dctErr As KFO.IDictionary, sErr As String, sErrRow As Long)
+    
 End Sub
