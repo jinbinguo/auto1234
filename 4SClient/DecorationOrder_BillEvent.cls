@@ -126,10 +126,13 @@ Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
     Dim rowIndex As Long
     Dim isInstall As Boolean
     Dim vehicleId As Long
-    
+    Dim dctSaleType As KFO.Dictionary
     isInstall = False
     vehicleId = Val(m_BillInterface.GetFieldValue("FBase2"))
-    If vehicleId = 0 Then
+    Set dctSaleType = m_BillInterface.GetDataFldbyKey("FBase3")
+    
+    
+    If vehicleId = 0 And dctSaleType("FDSP") = "外销" Then
         For rowIndex = 1 To m_BillInterface.BillEntrys(1).GridMaxDataRowNum
             isInstall = m_BillInterface.GetFieldValue("FCheckBox1", rowIndex)
             If isInstall Then
@@ -137,7 +140,7 @@ Private Sub m_BillInterface_BeforeSave(bCancel As Boolean)
             End If
         Next rowIndex
         If isInstall Then
-            MsgBoxEx.showInfo "需安装订单，车辆不能为空！"
+            MsgBoxEx.showInfo "需安装精品配件的外销订单，车辆不能为空！"
             bCancel = True
         End If
     End If
